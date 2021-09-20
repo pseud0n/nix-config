@@ -11,6 +11,7 @@ exec_always swayidle -w \
          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep /etc/nixos/home-manager/config/sway/scripts/swaylock.bash 
 
-exec scripts/keybinds/build/caps2esc scripts/job.yaml
+exec udevmon -c scripts/job.yaml
 
 exec lxpolkit
+

@@ -8,7 +8,7 @@ process_match=$(ps -ef | grep fish | awk '$3 == pid { print $2 }' pid=$pid)
 
 if [ -z $process_match ]
 then
-	echo "$command ~"
+	echo "$command /home/alexs"
 else
 	echo "$command $(pwdx $process_match | awk '{ print $2 }')"
 fi

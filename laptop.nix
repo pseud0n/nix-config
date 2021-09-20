@@ -4,11 +4,10 @@
 	boot.kernelModules = [ "wl" ]; # set of kernel modules loaded in second stage of boot process
 	boot.initrd.kernelModules = [ "kvm-intel" "wl" ]; # list of modules always loaded by the initrd (initial ramdisk)
 
-	hardware.opengl.driSupport32Bit = true;
 	hardware.opengl = {
 		driSupport = true;
 		driSupport32Bit = true;
-		extraPackages32 = with pkgs.pkgsi686Linux [ libva ];
+		extraPackages32 = with pkgs.pkgsi686Linux; [ libva ];
 		setLdLibraryPath = true;
 	};
 

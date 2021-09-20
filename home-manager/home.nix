@@ -10,9 +10,9 @@ let
 #      https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz;
 
 	gruvboxTheme = {
-		bg = "282828";
+		bg = "32302f";
 		fg = "ebdbb2";
-		red = "cc241d";
+		red = "fb4934"; #"cc241d";
 		green = "98971a";
 		yellow = "d79921";
 		blue = "458588";
@@ -45,9 +45,6 @@ in rec {
 #		};
 #    };
 	
-#	nixpkgs.config.permittedInsecurePackages = [
-#		"libsixel-1.8.6"
-#	];
 	nixpkgs.config.allowUnfree = true;
 	#nixpkgs.config.allowBroken = false;
 	#allowBrokenPredicate = pkg: builtins.elem (lib.getName pkg) [
@@ -162,6 +159,7 @@ in rec {
 				appimage-run
 				postman
 				spotify
+				firefox
 			]);
 
 			pythonVersion = "python39";
@@ -277,8 +275,8 @@ in rec {
 			with pkgs.vimPlugins; [
 				# Aesthetics
 				gruvbox # Nice colour scheme
-				#vim-airline # Line at bottom of screen
-				#vim-airline-themes
+				vim-airline # Line at bottom of screen
+				vim-airline-themes
 
 				#nvim-treesitter # Better syntax hightlighting
 
@@ -408,7 +406,7 @@ in rec {
 			window.border = 2;
 
 			keybindings = with config.wayland.windowManager.sway.config; {
-				"${modifier}+Return" = "exec -- $(${homeConfigDir}/sway/scripts/open-terminal-cd.bash 'foot -D')"; # If alacritty, use '${terminal} -e'
+				"${modifier}+Return" = "exec $(${homeConfigDir}/sway/scripts/open-terminal-cd.bash 'foot -D')"; # If alacritty, use '${terminal} -e'
 				"Ctrl+Mod1+t" = "exec ${terminal}"; # Gnome default
 				"${modifier}+d" = "exec ${menu}";
 				"${modifier}+w" = "exec epiphany";
@@ -520,21 +518,21 @@ in rec {
 		settings = {
 			main = {
 				term = "foot";
-				font = "monospace:size=11";
+				font = "monospace:size=9";
 				dpi-aware = "yes";
 				#letter-spacing="1";
 			};
-			colors = {
-				background = "282828";
-				foreground = "ebdbb2";
-				regular0 = "282828";
-				regular1 = "cc241d";
-				regular2 = "98971a";
-				regular3 = "d79921";
-				regular4 = "458588";
-				regular5 = "b16286";
-				regular6 = "689d6a";
-				regular7 = "a89984";
+			colors = with gruvboxTheme; {
+				background = bg;
+				foreground = fg;
+				regular0 = bg;
+				regular1 = red;
+				regular2 = green;
+				regular3 = yellow;
+				regular4 = blue;
+				regular5 = purple;
+				regular6 = aqua;
+				regular7 = gray;
 				bright0 = "928374";
 				bright1 = "fb4934";
 				bright2 = "b8bb26";

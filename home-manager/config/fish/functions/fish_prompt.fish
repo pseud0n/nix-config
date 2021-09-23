@@ -4,7 +4,7 @@ set __fish_git_prompt_showupstream "informative"
 
 set __fish_git_prompt_char_cleanstate '☑'
 set __fish_git_prompt_char_conflictedstate '!'
-set __fish_git_prompt_char_dirtystate  '⚠️'
+set __fish_git_prompt_char_dirtystate  '~'
 set __fish_git_prompt_char_invalidstate '☒'
 set __fish_git_prompt_char_stagedstate '…'
 set __fish_git_prompt_char_stashstate '📦'

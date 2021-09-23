@@ -65,8 +65,8 @@ nnoremap <C-L> <C-W><C-L>
 "nnoremap <C-p> :GFiles <CR>
 
 nnoremap <leader><space> :History <CR>
-nnoremap <leader>lf :Lf <CR>
-nnoremap <leader>lc :Lfcd <CR>
+"nnoremap <leader>lf :Lf <CR>
+"nnoremap <leader>lc :Lfcd <CR>
 
 "nnoremap <leader>m :MaximizerToggle!<CR>
 
@@ -176,9 +176,9 @@ autocmd FileType fish compiler fish
 autocmd FileType nix set ts=4 sw=4 noexpandtab
 autocmd FileType haskell set ts=2 sw=2 expandtab
 
-let g:lf_map_keys=0
-let g:lf_open_new_tab=0
-let g:lf_replace_netrw = 1
+"let g:lf_map_keys=0
+"let g:lf_open_new_tab=0
+"let g:lf_replace_netrw = 1
 
 let g:ctrlp_show_hidden = 1
 

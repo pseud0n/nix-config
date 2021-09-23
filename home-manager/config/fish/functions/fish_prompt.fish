@@ -1,5 +1,19 @@
-set -g fish_prompt_git_status_conflicted '×'
-set -g fish_prompt_git_status_changed '+'
+set __fish_git_prompt_show_informative_status
+set __fish_git_prompt_showcolorhints
+set __fish_git_prompt_showupstream "informative"
+
+set __fish_git_prompt_char_cleanstate '☑'
+set __fish_git_prompt_char_conflictedstate '!'
+set __fish_git_prompt_char_dirtystate  '⚠️'
+set __fish_git_prompt_char_invalidstate '☒'
+set __fish_git_prompt_char_stagedstate '…'
+set __fish_git_prompt_char_stashstate '📦'
+set __fish_git_prompt_char_stateseparator ' '
+set __fish_git_prompt_char_untrackedfiles '🔍'
+set __fish_git_prompt_char_upstream_ahead '↟'
+set __fish_git_prompt_char_upstream_behind '↡'
+set __fish_git_prompt_char_upstream_diverged '⑂'
+set __fish_git_prompt_char_upstream_equal '⑃' 
 
 function fish_prompt --description 'Write out the prompt'
     set laststatus $status
@@ -10,7 +24,17 @@ function fish_prompt --description 'Write out the prompt'
 	  end
 	)
 
-	set git_info (__informative_git_prompt)
+	set __fish_git_prompt_show_informative_status
+	set __fish_git_prompt_showcolorhints
+	set __fish_git_prompt_showupstream "informative"
+
+	#git tag > /dev/null 2>&1
+	#set inrepo $status
+	#if test $inrepo -eq 0
+	#	set git_info (__informative_git_prompt)
+	#end
+	
+	set git_info (__fish_git_prompt)
 
 	set info "$nix_shell_info" # if in nix shell
 	if not test -z "$info"

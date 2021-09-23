@@ -86,14 +86,14 @@ in rec {
 				nix-prefetch-git
 				grub2
 				lf
-				neofetch
-				pfetch
-				ripgrep
-				fd
-				flatpak
-				lsd
-				htop
-				hexyl
+				neofetch # show cool logo and useless info
+				pfetch # mini neofetch
+				ripgrep # recursively search for files
+				fd # 'find' alternative
+				flatpak # Run programs in isolated env with deps managed
+				lsd # Better ls
+				htop # View tasks
+				hexyl # View hex files
 				jack1
 				xboxdrv
 				libxkbcommon
@@ -102,9 +102,11 @@ in rec {
 				jq
 				pkg-config
 				glib-networking
-				trash-cli
-				xorg.xhost
+				trash-cli # Recycle bin for windows
+				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
 				xorg.libXcomposite
+
+				rnix-lsp # LSP for Nix Expression Language
 			];
 
 			guiMiscPackages = with pkgs; [
@@ -197,6 +199,8 @@ in rec {
 
 				#mongodb-4_2
 				mongodb
+
+				idea.idea-community
 			];
 
 			#pythonPackages = with pkgs."${pythonVersion}Packages"; [
@@ -231,11 +235,11 @@ in rec {
 				dmenu # Simple fuzzy item selection
 				wofi # Wayland rofi, dmenu alternative
 				wob # Show progress bar
-				flashfocus
-				evemu
+				flashfocus # Flash on window focus
 				libinput
 				libappindicator
-				brightnessctl
+				brightnessctl # Control screen brightness
+				wf-recorder
 			];
 		in cliMiscPackages
 		++ guiMiscPackages
@@ -254,16 +258,25 @@ in rec {
 		extraConfig = readConfig /nvim/init.vim;
 		plugins =
 			let ctrlsf-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-				name = "ctrlsf-vim";
+				pname = "ctrlsf-vim";
+				version = "2.60";
 				src = pkgs.fetchFromGitHub {
 					owner = "dyng";
 					repo = "ctrlsf.vim";
-					rev = "51c5b285146f042bd2015278f9b8ad74ae915e00";
-					sha256 = "1901cr6sbaa8js4ylirz9p4m0r9q0a06gm71ghl6kp6pw7h5fgmq";
+					rev = "253689525fddfcb78731bac2d5125b9579bfffb0";
+					sha256 = "1xpff867cj1wyqd4hs7v12p7lsmrihmav2z46452q59f6zby5dp4";
 				};
 			};
 			vim-lf = pkgs.vimUtils.buildVimPluginFrom2Nix {
-				name = "vim-lf";
+#				pname = "vim-lf";
+#				src = pkgs.fetchFromGitHub {
+#					owner = "khadegd";
+#					repo = "vim-lf";
+#					rev = "47de9abbc79a7c0a124f08054add0e2cedb90d89";
+#					sha256 = "1syqrdzld616zbwixb9kc2kkr3bbc5c9dzmzffdjbyy60i0ynqys";
+#				};
+				pname = "vim-lf";
+				version = "1.0";
 				src = pkgs.fetchFromGitHub {
 					owner = "longkey1";
 					repo = "vim-lf";
@@ -548,6 +561,13 @@ in rec {
 	programs.fish = {
 		enable = true;
 		shellInit = readConfig /fish/icons.fish;
+		loginShellInit = ''
+			if test (id --user $USER) -ge 1000 && test (tty) = "/dev/tty1"
+				exec sway
+				firefox
+				exec 'sudo udevmon -c /etc/nixos/home-manager/config/sway/scripts/job.yaml'
+			end
+		'';
 		shellAliases = {
 			exe = "result/bin/*";
 			ls = "lsd";

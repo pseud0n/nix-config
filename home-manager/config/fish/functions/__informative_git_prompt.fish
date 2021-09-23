@@ -35,18 +35,18 @@ set -g fish_prompt_git_status_order staged conflicted changed untracked
 
 function __informative_git_prompt --description 'Write out the git prompt'
 
-    set -l is_inside_work_tree (git rev-parse --is-inside-work-tree ^/dev/null )
-
-    if test -z $is_inside_work_tree
-        return
-    end
-
-    if test "true" = $is_inside_work_tree
-        set git_status_info (___fish_git_print_status_info)
-    else
-        set git_status_info (set_color -o $fish_color_git_clean)$fish_prompt_git_status_git_dir(set_color $fish_color_normal)
-    end
-
+	#    set -l is_inside_work_tree (git rev-parse --is-inside-work-tree ^/dev/null )
+	#
+	#    if test -z $is_inside_work_tree
+	#        return
+	#    end
+	#
+	#    if test "true" = $is_inside_work_tree
+	#        set git_status_info (___fish_git_print_status_info)
+	#    else
+	#        set git_status_info (set_color -o $fish_color_git_clean)$fish_prompt_git_status_git_dir(set_color $fish_color_normal)
+	#    end
+	#
     printf "%s%s/%s" (___fish_git_print_branch_info) (set_color -o $fish_color_git_branch) $git_status_info
 
 end

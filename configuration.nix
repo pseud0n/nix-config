@@ -41,17 +41,21 @@ in {
         	};
 
 	};
+	networking = {
+		networkmanager = {
+			enable = true;
+			wifi.scanRandMacAddress = false;
+		};
+		useDHCP = false;
+		interfaces.eno1.useDHCP = true;
+		hostName = "nixos";
+	};
 
-	networking.useDHCP = false;
-
-	networking.hostName = "nixos"; # Define your hostname.
-	networking.networkmanager.enable = true;
 	time.timeZone = "Europe/London";
 
 	# The global useDHCP flag is deprecated, therefore explicitly set to false here.
 	# Per-interface useDHCP will be mandatory in the future, so this generated config
 	# replicates the default behaviour.
-	networking.interfaces.eno1.useDHCP = true;
 
 	# Configure network proxy if necessary
 	# networking.proxy.default = "http://user:password@proxy:port/";
@@ -68,38 +72,49 @@ in {
 	systemd.services.upower.enable = true;
 
     programs.xwayland.enable = true;
+	programs.java.enable = true;
 
 	services = {
 		flatpak.enable = true;
 	 	gnome.gnome-keyring.enable = true;
 	 	upower.enable = true;
 
+		#udev.extraHwdb = # Bus 001 Device 008: ID 0c45:760b Microdia USB Keyboard
+		#''
+		#evdev:input:b0003v0C45p760B*
+		#		KEYBOARD_KEY_70039=esc
+		#'';
+
 		mongodb = {
 			enable = true;
 			dbpath = "${home}/data/db";
 			user = "alexs";
 		};
-
 		xserver = {
+			enable = true;
+			desktopManager = {
+				xterm.enable = false;
+				xfce.enable = true;
+			};
 			displayManager = {
 				defaultSession = "sway";
-				lightdm.greeters.mini = {
-					enable = true;
-					user = user;
-					extraConfig = ''
-						[greeter]
-						show-password-label = true
-						password-alignment = center
-						password-label-text = ♥♥♥♥♥
-						[greeter-theme]
-
-						[greeter-theme]
-						window-color = "#D79921"
-						font-size = 1em
-						background-image = "./home-manager/config/sway/backgrounds/gruvbox-dark-rainbow.png"
-						border-width = 1px
-					'';
-				};
+#				lightdm.greeters.mini = {
+#					enable = true;
+#					user = user;
+#					extraConfig = ''
+#						[greeter]
+#						show-password-label = true
+#						password-alignment = center
+#						password-label-text = ♥♥♥♥♥
+#						[greeter-theme]
+#
+#						[greeter-theme]
+#						window-color = "#D79921"
+#						font-size = 1em
+#						background-image = "./home-manager/config/sway/backgrounds/gruvbox-dark-rainbow.png"
+#						border-width = 1px
+#					'';
+#				};
 			};
 			layout = "gb";
 		};
@@ -107,12 +122,12 @@ in {
 
 	environment = {
 		variables = {
-			#TERMINAL = "alacritty";
 			TERMINAL = "foot";
 			QT_QPA_PLATFORM = "wayland";
 			XDG_CURRENT_DESTKOP = "sway";
 			MOZ_ENABLE_WAYLAND = "1";
-			#_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+			_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+			JAVA_HOME = "$(dirname $(dirname $(readlink $(readlink $(which javac)))))";
 			GTK_THEME = "Adwaita:dark";
 			DEV_DIR = "$HOME/dev";
 			HOME_MANAGER_DIR = homeManagerDir;
@@ -123,10 +138,11 @@ in {
 		};
 	};
 
-	programs.sway = {
-		enable = true;
-		wrapperFeatures.gtk = true;
-	};
+	programs.sway.enable = true;
+#	programs.sway = {
+#		enable = true;
+#		wrapperFeatures.gtk = true;
+#	};
 
 	sound.enable = true;
 	hardware.pulseaudio = {
@@ -196,6 +212,8 @@ in {
 		libsecret
 
 		agenda
+
+		#interception-tools
 	];
 
 #	system.activationScripts = {

@@ -52,7 +52,7 @@
         "format": "{}% "
     },
 	"disk": {
-		"format": "{}% "
+		"format": "{percentage_used}% "
 	},
     "battery": {
         "states": {

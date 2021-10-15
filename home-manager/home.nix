@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 with import <nixpkgs> { config = { allowUnfree = true; }; };
 
 let
@@ -34,6 +34,15 @@ let
 	readConfig = path: builtins.readFile (homeConfigDir + path);
 	
 	isPi = builtins.currentSystem == "aarch64-linux";
+	
+	jetbrainsOverride = import ./jetbrains/default.nix {
+		inherit lib stdenv callPackage fetchurl
+		cmake zlib python3
+		dotnet-sdk_5
+		autoPatchelfHook
+		libdbusmenu;
+		jdk = jdk11;
+	};
 
 in rec {
 #	nixpkgs.config.packageOverrides = pkgs: {
@@ -76,14 +85,19 @@ in rec {
 					rev = "4a62ec17e20ce0e738a8e5126b4298a73903b468"; 
 				}) {})
 				#libsixel
-				#ffmpeg-sixel
+				ffmpeg-sixel # Video streaming (ffserver)
+				#arcan.ffmpeg # Video streaming
+				gettext # msgmerge
+				rsnapshot
+				backintime
+				partimage
 				interception-tools
 				#libstdcxx5
 				taskwarrior
 				imagemagick
-				bat
+				bat # Better cat
 				lxsession
-				nix-prefetch-git
+				nix-prefetch-git # Find info about repo for Nix
 				grub2
 				lf
 				neofetch # show cool logo and useless info
@@ -105,6 +119,10 @@ in rec {
 				trash-cli # Recycle bin for windows
 				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
 				xorg.libXcomposite
+
+				pandoc
+				#tetex
+				texlive.combined.scheme-full
 
 				rnix-lsp # LSP for Nix Expression Language
 			];
@@ -137,20 +155,15 @@ in rec {
 				libnotify
 				gnome.networkmanagerapplet
 				pavucontrol
-				neovim-qt
-				element-desktop
 				libreoffice
-				#firefox-wayland
 				epiphany
-				alacritty
 				foot
 				conky
 				libappindicator-gtk3
+
+				emacs
 			] ++ (if isPi then [
 			] else [
-				whatsapp-for-linux
-				obsidian
-				qtchan
 				etcher
 				discord
 				zoom-us
@@ -161,7 +174,14 @@ in rec {
 				appimage-run
 				postman
 				spotify
-				firefox
+				firefox-wayland
+				#firefox
+				brave
+				jetbrainsOverride.idea-community
+				teams
+				steam
+				steam-tui
+				rpcs3
 			]);
 
 			pythonVersion = "python39";
@@ -175,7 +195,7 @@ in rec {
 				clang-tools
 				flex
 				bison
-				boost
+				boost175
 				ccls
 
 				cargo
@@ -184,6 +204,7 @@ in rec {
 				rustfmt
 
 				gradle
+				maven
 				jdk11
 				#openjfx15
 				#scenebuilder
@@ -197,10 +218,14 @@ in rec {
 				nodejs
 				nodePackages.nodemon
 
+				vala_0_50
+				gnome.vte
+
+				lean
+
 				#mongodb-4_2
 				mongodb
 
-				idea.idea-community
 			];
 
 			#pythonPackages = with pkgs."${pythonVersion}Packages"; [
@@ -257,7 +282,17 @@ in rec {
 		withPython3 = true;
 		extraConfig = readConfig /nvim/init.vim;
 		plugins =
-			let ctrlsf-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+			let mathematic-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+				pname = "mathematic-vim";
+				version = "2.60";
+				src = pkgs.fetchFromGitHub {
+					owner = "gu-fan";
+					repo = "mathematic.vim";
+					rev = "e57ec0d767fee83f95994b1a8d5cc82395198a49";
+					sha256 = "02w05bmzq5f6ry8b0kw5mkx4rnqwampjn9lx9jcagw53h4jmir0p";
+				};
+			};
+			ctrlsf-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
 				pname = "ctrlsf-vim";
 				version = "2.60";
 				src = pkgs.fetchFromGitHub {
@@ -284,6 +319,51 @@ in rec {
 					sha256 = "06f3lz4dkslnhysl0jcykm4b2pnkazjjpafnxlhz4qsrf21jqkfm";
 				};
 			};
+			vim-maximizer = pkgs.vimUtils.buildVimPluginFrom2Nix {
+				pname = "vim-maximizer";
+				version = "1.0";
+				src = pkgs.fetchFromGitHub {
+					owner = "szw";
+					repo = "vim-maximizer";
+					rev = "2e54952fe91e140a2e69f35f22131219fcd9c5f1";
+					sha256 = "031brldzxhcs98xpc3sr0m2yb99xq0z5yrwdlp8i5fqdgqrdqlzr";
+				};
+			};
+			switch-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+				pname = "lean-nvim";
+				version = "1.0";
+				src = pkgs.fetchFromGitHub {
+					owner = "andrewradev";
+					repo = "switch.vim";
+					rev = "900c5d3ee79b1771c5e07bf7290068ea35881756";
+					sha256 = "03fabz2xj69mwb52m3a1y9hlc0v62d0c2ysk7jjznx4mkq303cfm";
+				};
+			};
+			lean-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+				pname = "lean-nvim";
+				version = "1.0";
+				src = pkgs.fetchFromGitHub {
+					owner = "Julian";
+					repo = "lean.nvim";
+					rev = "74a222956b4f8db47ac8e3f5a48225c9afa7b6eb";
+					sha256 = "19czdjy01xph8k61gclf5fqryfmml1i6vxgjjlczzhnvc763n4wq";
+				};
+				dependencies = with vimPlugins; [
+					switch-vim
+					nvim-lspconfig
+					plenary-nvim
+				];
+			};
+			zen-mode-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+				pname = "zen-mode-nvim";
+				version = "1.0";
+				src = pkgs.fetchFromGitHub {
+					owner = "folke";
+					repo = "zen-mode.nvim";
+					rev = "935a58307b64ce071689ba8ee915af5b9cdfe70c";
+					sha256 = "09s7jn48nszha8j4r9r52qacc3gvhxka43am5g1wzlqxqcvns9fp";
+				};
+			};
 			in
 			with pkgs.vimPlugins; [
 				# Aesthetics
@@ -301,11 +381,19 @@ in rec {
 				vim-smoothie # Smooth scrolling
 
 				# Language support
+				nvim-lspconfig
+
 				vim-nix
 				vim-fish
                 i3config-vim
 
+				#vim-lean
+				lean-nvim
+
 				vim-markdown # md support
+				markdown-preview-nvim
+
+				haskell-vim
 
 				coc-nvim
 				coc-python
@@ -320,20 +408,25 @@ in rec {
 
 				# Utilities
 				suda-vim # sudo, but without launching Vim with sudo
-				#vim-maximizer # makes window fill screen
+				vim-maximizer # makes window fill screen
+				zen-mode-nvim
 				auto-pairs # Pairs, adds spaces, newline support
 				nvim-colorizer-lua # Highlights colour codes in cod
 				vimsence # Discord rich presence
 				vim-hoogle # Hoogle search within Vim
 				emmet-vim # generate HTML (like zen coding)
+				nvim-compe # Completion
 
 				vimwiki # note-taking
 				taskwiki
-				vim-markdown
+
+				mathematic-vim # For extra maths symbols
+				vim-highlightedyank # Shows what's copied
 
 				# Movement
 				vim-sneak
 				ctrlp-vim
+				telescope-nvim
 				ctrlsf-vim
 				vim-floaterm
 				lf-vim
@@ -345,6 +438,9 @@ in rec {
 				vim-fugitive
 				vim-rhubarb
 				vim-gitbranch
+
+				# Misc
+				plenary-nvim
 			];
 			extraPackages = with pkgs; [
 				(python3.withPackages (ps: with ps; [
@@ -362,15 +458,20 @@ in rec {
 
 	xdg.mimeApps = {
 		enable = true;
+#		addedAssociations = {
+#		};
 		defaultApplications = {
+			"text/markdown" = "nvim.desktop";
 			"image/png" = "sxiv.desktop";
 			"image/jpeg" = "sxiv.desktop";
 			"image/gif" = "sxiv.desktop";
-
 			"video/mp4" = "mpv.desktop";
+			"image/pdf" = "mupdf.desktop";
+
 			"x-scheme-handler/discord-424004941485572097"="discord-424004941485572097.desktop";
 			"x-scheme-handler/postman" = "Postman.desktop";
-		};
+			"x-scheme-handler/msteams" = "teams.desktop";
+		}; # Check ~/.config/mimeapps.list for collisions
 	};
 
 	programs.mako = {
@@ -393,8 +494,8 @@ in rec {
 			#fonts = {"${defaultFont}" = 15;} ;
 			#fonts = { "FiraCode" = 15; };
 			floating.criteria = [
-				{"app_id" = "nm-connection-editor";}
-				{"app_id" = "pavucontrol";}
+				{ "app_id" = "nm-connection-editor"; }
+				{ "app_id" = "pavucontrol"; }
 			];
 			input."*" = {
 				xkb_layout = "gb";
@@ -533,7 +634,6 @@ in rec {
 				term = "foot";
 				font = "monospace:size=9";
 				dpi-aware = "yes";
-				#letter-spacing="1";
 			};
 			colors = with gruvboxTheme; {
 				background = bg;
@@ -561,13 +661,12 @@ in rec {
 	programs.fish = {
 		enable = true;
 		shellInit = readConfig /fish/icons.fish;
-		loginShellInit = ''
-			if test (id --user $USER) -ge 1000 && test (tty) = "/dev/tty1"
-				exec sway
-				firefox
-				exec 'sudo udevmon -c /etc/nixos/home-manager/config/sway/scripts/job.yaml'
-			end
-		'';
+#		loginShellInit = ''
+#			if test (id --user $USER) -ge 1000 && test (tty) = "/dev/tty1"
+#				exec sway
+#				exec 'sudo udevmon -c ${homeConfigDir}/sway/scripts/job.yaml'
+#			end
+#		'';
 		shellAliases = {
 			exe = "result/bin/*";
 			ls = "lsd";
@@ -611,6 +710,27 @@ in rec {
 				body = readConfig /fish/functions/__informative_git_prompt.fish;
 			};
 
+			list = {
+				description = "Interactive list pdfs and select";
+				body = ''
+				set i 1
+				set ext $1
+				if test -z $ext
+					set ext "pdf"
+				end
+				
+				set files (find . -name "*.$ext")
+				for f in $files
+					echo $i": " $f
+					set i (math $i+1)
+				end
+				read -a choices
+				for n in $choices
+					mupdf $files[$n] &
+				end
+				'';
+			};
+
 			pkg-search = {
 				description = "Search for Nix package";
 				body = ''
@@ -640,6 +760,12 @@ in rec {
 	'';
 
 	xdg.configFile."lf/lfrc".text = readConfig /lf/lfrc;
+	home.file."nixos/home-manager/config/sway/scripts/job.yaml".text = ''
+- JOB: ${pkgs.interception-tools}/bin/intercept -g $DEVNODE | /home/alexs/apps/caps2esc-master/build/caps2esc| ${pkgs.interception-tools}/bin/uinput -d $DEVNODE
+  DEVICE:
+    EVENTS:
+      EV_KEY: [BTN_BACK, BTN_RIGHT]'';
+	
 
 	programs.git = {
 		enable = true;

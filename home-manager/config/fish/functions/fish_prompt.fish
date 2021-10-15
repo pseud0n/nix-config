@@ -2,10 +2,10 @@ set __fish_git_prompt_show_informative_status
 set __fish_git_prompt_showcolorhints
 set __fish_git_prompt_showupstream "informative"
 
-set __fish_git_prompt_char_cleanstate '☑'
+set __fish_git_prompt_char_cleanstate '✔'
 set __fish_git_prompt_char_conflictedstate '!'
 set __fish_git_prompt_char_dirtystate  '~'
-set __fish_git_prompt_char_invalidstate '☒'
+set __fish_git_prompt_char_invalidstate '⨯'
 set __fish_git_prompt_char_stagedstate '…'
 set __fish_git_prompt_char_stashstate '📦'
 set __fish_git_prompt_char_stateseparator ' '
@@ -28,32 +28,23 @@ function fish_prompt --description 'Write out the prompt'
 	set __fish_git_prompt_showcolorhints
 	set __fish_git_prompt_showupstream "informative"
 
-	#git tag > /dev/null 2>&1
-	#set inrepo $status
-	#if test $inrepo -eq 0
-	#	set git_info (__informative_git_prompt)
-	#end
-	
-	set git_info (__fish_git_prompt)
+	set git_info (__fish_git_prompt) # Includes whitespace
 
-	set info "$nix_shell_info" # if in nix shell
-	if not test -z "$info"
-		set info "$info"
-		if not test -z "$git_info"
-			set info "$info/$git_info"
+	if not test -z "$nix_shell_info" # If in nix shell
+		set info  (set_color -o blue)" $nix_shell_info"(set_color -o normal)
+		if not test -z "$git_info" # If in git repo
+			set info "$info |$git_info" # Combine both if present
 		end
 	else
 		if not test -z "$git_info"
-			set info "$git_info"
+			set info (set_color -o normal)"$git_info" # In git repo but not nix shell
 		end
 	end
 
-	if not test -z "$info"
-		set info "$info " # add space if not empty string
-	end
+	set info "$info " # add space if not empty string
 
     set_color -b normal
-    printf '%s%s%s%s' $last_status (set_color -o yellow) (prompt_pwd) (set_color -o blue) " $info" (set_color white)
+    printf '%s%s%s%s' $last_status (set_color -o yellow) (prompt_pwd) "$info" (set_color white)
     if test $laststatus -eq 0
         printf "%s" (set_color -o green)
     else

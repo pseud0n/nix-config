@@ -11,5 +11,8 @@ exec_always swayidle -w \
          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
          before-sleep /etc/nixos/home-manager/config/sway/scripts/swaylock.bash 
 
+#exec 'sudo udevmon -c /etc/nixos/home-manager/config/sway/scripts/job.yaml &'
+exec 'foot sh -c "echo Starting rebind; sudo udevmon -c /etc/nixos/home-manager/config/sway/scripts/job.yaml" &'
+
 exec lxpolkit
 

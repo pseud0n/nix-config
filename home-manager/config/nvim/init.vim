@@ -212,7 +212,7 @@ nmap     <leader>fw <Plug>CtrlSFCwordPath
 nmap     <leader>fW <Plug>CtrlSFPwordPath
 nnoremap <leader>fo :CtrlSFOpen<CR>
 
-nnoremap <Leader>tf :lua require'telescope.builtin'.find_files{}
+nnoremap <Leader>tf :lua require'telescope.builtin'.find_files{}<CR>
 vnoremap <Leader>tv :lua require'telescope.builtin'.grep_string{}
 
 let g:airline#extensions#tabline#enabled = 1
@@ -379,6 +379,6 @@ execute "digraphs Z\\|"  . 0x2124
 " tacks (up-tack is already in standard digraphs)
 execute "digraphs T-" . 0x22A4
 execute "digraphs \\|-"  . 0x22a2
-execute "digraphs \\-|"  . 0x22a3
+execute "digraphs -\\|"  . 0x22a3
 
 hi SpellBad cterm=underline "ctermfg=203 guifg=#ff5f5f"

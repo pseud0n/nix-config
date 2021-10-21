@@ -126,7 +126,7 @@ in {
 			QT_QPA_PLATFORM = "wayland";
 			XDG_CURRENT_DESTKOP = "sway";
 			MOZ_ENABLE_WAYLAND = "1";
-			_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+			#_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
 			JAVA_HOME = "$(dirname $(dirname $(readlink $(readlink $(which javac)))))";
 			GTK_THEME = "Adwaita:dark";
 			DEV_DIR = "$HOME/dev";

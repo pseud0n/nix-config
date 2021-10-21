@@ -300,6 +300,7 @@ let g:markdown_folding = 1
 autocmd FileType markdown let b:coc_suggest_disable = 1
 
 
+" subscript lowercase
 execute "digraphs as " . 0x2090
 execute "digraphs es " . 0x2091
 execute "digraphs hs " . 0x2095
@@ -318,6 +319,7 @@ execute "digraphs us " . 0x1D64
 execute "digraphs vs " . 0x1D65
 execute "digraphs xs " . 0x2093
 
+" superscript lowercase
 execute "digraphs aS " . 0x1d43
 execute "digraphs bS " . 0x1d47
 execute "digraphs cS " . 0x1d9c
@@ -344,6 +346,7 @@ execute "digraphs xS " . 0x02e3
 execute "digraphs yS " . 0x02b8
 execute "digraphs zS " . 0x1dbb
 
+" superscript uppercase
 execute "digraphs AS " . 0x1D2C
 execute "digraphs BS " . 0x1D2E
 execute "digraphs DS " . 0x1D30
@@ -364,15 +367,18 @@ execute "digraphs US " . 0x1D41
 execute "digraphs VS " . 0x2C7D
 execute "digraphs WS " . 0x1D42
 
-execute "digraphs T-" . 0x22A4
+" sets (double-struck)
+execute "digraphs A\\|"  . 0x1D538
+execute "digraphs C\\|"  . 0x2102
+execute "digraphs I\\|"  . 0x1D540
+execute "digraphs N\\|"  . 0x2115
+execute "digraphs Q\\|"  . 0x211A
+execute "digraphs R\\|"  . 0x211D
+execute "digraphs Z\\|"  . 0x2124
 
-execute "digraphs N/" . 0x2115
-execute "digraphs A/"  . 0x1D538
-execute "digraphs C/"  . 0x2102
-execute "digraphs I/"  . 0x1D540
-execute "digraphs N/"  . 0x2115
-execute "digraphs Q/"  . 0x211A
-execute "digraphs R/"  . 0x211D
-execute "digraphs Z/"  . 0x2124
+" tacks (up-tack is already in standard digraphs)
+execute "digraphs T-" . 0x22A4
+execute "digraphs \\|-"  . 0x22a2
+execute "digraphs \\-|"  . 0x22a3
 
 hi SpellBad cterm=underline "ctermfg=203 guifg=#ff5f5f"

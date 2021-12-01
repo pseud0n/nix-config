@@ -148,6 +148,8 @@ in rec {
 				pcmanfm
 				klavaro
 				barrier
+				libsForQt5.kompare
+				qemu
 
 				mpv
 				sxiv
@@ -167,7 +169,10 @@ in rec {
 				etcher
 				discord
 				zoom-us
-				wine
+				wineWowPackages.stable
+				winetricks
+				mesa
+				lutris
 				spotify
 				virtualbox
 				blender
@@ -180,8 +185,9 @@ in rec {
 				jetbrainsOverride.idea-community
 				teams
 				steam
-				steam-tui
+				#steam-tui
 				rpcs3
+				virtualbox
 			]);
 
 			pythonVersion = "python39";
@@ -265,6 +271,8 @@ in rec {
 				libappindicator
 				brightnessctl # Control screen brightness
 				wf-recorder
+				libinput-gestures
+				gammastep
 			];
 		in cliMiscPackages
 		++ guiMiscPackages
@@ -390,10 +398,11 @@ in rec {
 				#vim-lean
 				lean-nvim
 
-				vim-markdown # md support
+				vim-markdown # MD support
 				markdown-preview-nvim
 
 				haskell-vim
+				ghcmod-vim # Types inline
 
 				coc-nvim
 				coc-python
@@ -513,10 +522,10 @@ in rec {
 					command = "${pkgs.waybar}/bin/waybar";
 				}
 			];
-			gaps = {
-				inner = 10;
-				outer =  0;
-			};
+			#gaps = {
+			#	inner = 0;
+			#	outer =  0;
+			#};
 			window.border = 2;
 
 			keybindings = with config.wayland.windowManager.sway.config; {
@@ -580,7 +589,7 @@ in rec {
 				"${modifier}+Shift+Space" = "floating toggle";
 				"${modifier}+Space" = "focus_mode toggle";
 				"${modifier}+f" = "fullscreen toggle";
-				"${modifier}+n" = "exec flashfocus";
+				#"${modifier}+n" = "exec flashfocus";
 				"XF86AudioRaiseVolume" = "exec amixer -q set Master 5%+ unmute && amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print substr($2, 0, length($2)-1) }' > /tmp/wobpipe";
 				"XF86AudioLowerVolume" = "exec amixer -q set Master 5%- unmute && amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print substr($2, 0, length($2)-1) }' > /tmp/wobpipe";
 				"XF86AudioMute" = "amixer sset Master toggle | sed -En '/\\[on\\]/ s/.*\\[([0-9]+)%\\].*/\\1/ p; /\\[off\\]/ s/.*/0/p' | head -1 > /tmp/wobpipe";

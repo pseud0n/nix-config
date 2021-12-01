@@ -84,6 +84,17 @@ nnoremap <silent> <Tab>l :blast<CR>
 nnoremap <silent> <Tab>q :bd<CR>
 nnoremap <silent> <Tab>Q :bd!<CR>
 
+nnoremap <silent> <Tab>1 :buffer 1<CR>
+nnoremap <silent> <Tab>2 :buffer 2<CR>
+nnoremap <silent> <Tab>3 :buffer 3<CR>
+nnoremap <silent> <Tab>4 :buffer 4<CR>
+nnoremap <silent> <Tab>5 :buffer 5<CR>
+nnoremap <silent> <Tab>6 :buffer 6<CR>
+nnoremap <silent> <Tab>7 :buffer 7<CR>
+nnoremap <silent> <Tab>8 :buffer 8<CR>
+nnoremap <silent> <Tab>9 :buffer 9<CR>
+nnoremap <silent> <Tab>0 :buffer 10<CR>
+
 "nnoremap <silent>    <Tab>j :BufferPrevious<CR>
 "nnoremap <silent>    <Tab>k :BufferNext<CR>
 "
@@ -372,6 +383,7 @@ execute "digraphs A\\|"  . 0x1D538
 execute "digraphs C\\|"  . 0x2102
 execute "digraphs I\\|"  . 0x1D540
 execute "digraphs N\\|"  . 0x2115
+execute "digraphs P\\|"  . 0x2119
 execute "digraphs Q\\|"  . 0x211A
 execute "digraphs R\\|"  . 0x211D
 execute "digraphs Z\\|"  . 0x2124
@@ -380,5 +392,15 @@ execute "digraphs Z\\|"  . 0x2124
 execute "digraphs T-" . 0x22A4
 execute "digraphs \\|-"  . 0x22a2
 execute "digraphs -\\|"  . 0x22a3
+execute "digraphs \\|="  . 0x22a8
+
+" Set notation
+execute "digraphs !("  . 0x2209
+
+" Star
+execute "digraphs **"  . 0x22C6
+
+"Not approximately equal to
+execute "digraphs ?!"  . 0x2249
 
 hi SpellBad cterm=underline "ctermfg=203 guifg=#ff5f5f"

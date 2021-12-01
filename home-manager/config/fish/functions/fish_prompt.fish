@@ -50,5 +50,6 @@ function fish_prompt --description 'Write out the prompt'
     else
 		printf "%s" (set_color -o red)
     end
-	printf "● %s" (set_color normal)
+	#●
+	printf "∿ %s" (set_color normal)
 end

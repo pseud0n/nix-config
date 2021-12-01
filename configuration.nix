@@ -20,8 +20,10 @@ in {
 		[ # Include the results of the hardware scan.
 			./hardware-configuration.nix
 			#./grub-savedefault.nix
-			(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-21.05.tar.gz}/nixos")
+			#(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-21.05.tar.gz}/nixos")
 			#./home-manager/home.nix
+			#pkgs.home-manager
+			<home-manager/nixos>
 		] ++ (if isPi then [
 			"${builtins.fetchTarball https://github.com/NixOS/nixos-hardware/archive/refs/tags/mnt-reform2-nitrogen8m-v1.tar.gz}/raspberry-pi/4"
 			#"${builtins.fetchTarball https://github.com/NixOS/nixos-hardware/archive/936e4649098d6a5e0762058cb7687be1b2d90550.tar.gz}/raspberry-pi/4"
@@ -93,9 +95,13 @@ in {
 		xserver = {
 			enable = true;
 			desktopManager = {
-				xterm.enable = false;
+				#xterm.enable = false;
+				#plasma5.enable = true;
 				xfce.enable = true;
 			};
+			#videoDrivers = with pkgs; [
+			#	driversi686Linux.mesa
+			#];
 			displayManager = {
 				defaultSession = "sway";
 #				lightdm.greeters.mini = {
@@ -214,6 +220,7 @@ in {
 		agenda
 
 		#interception-tools
+		#home-manager
 	];
 
 #	system.activationScripts = {

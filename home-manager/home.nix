@@ -85,20 +85,19 @@ in rec {
 					rev = "4a62ec17e20ce0e738a8e5126b4298a73903b468"; 
 				}) {})
 				#libsixel
-				ffmpeg-sixel # Video streaming (ffserver)
+				#ffmpeg-sixel # Video streaming (ffserver)
 				#arcan.ffmpeg # Video streaming
 				gettext # msgmerge
-				rsnapshot
-				backintime
-				partimage
-				interception-tools
+				#rsnapshot
+				#backintime
+				#partimage
+				#interception-tools
 				#libstdcxx5
 				taskwarrior
-				imagemagick
+				#imagemagick
 				bat # Better cat
 				lxsession
 				nix-prefetch-git # Find info about repo for Nix
-				grub2
 				lf
 				neofetch # show cool logo and useless info
 				pfetch # mini neofetch
@@ -120,23 +119,23 @@ in rec {
 				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
 				xorg.libXcomposite
 
-				pandoc
+				#pandoc
 				#tetex
-				texlive.combined.scheme-full
+				#texlive.combined.scheme-full
 
 				rnix-lsp # LSP for Nix Expression Language
 			];
 
 			guiMiscPackages = with pkgs; [
-				gtk-engine-murrine
-				gtk_engines
-				gsettings-desktop-schemas
-				glib
-				gtk3
-				hicolor-icon-theme
-				transmission-remote-gtk
-				gnome3.adwaita-icon-theme
-				gnome-breeze
+				#gtk-engine-murrine
+				#gtk_engines
+				#gsettings-desktop-schemas
+				#glib
+				#gtk3
+				#hicolor-icon-theme
+				#transmission-remote-gtk
+				#gnome3.adwaita-icon-theme
+				#gnome-breeze
 
 				thunderbird
 				agenda
@@ -145,11 +144,11 @@ in rec {
 				gimp
 				webcamoid
 				agenda
-				pcmanfm
+				#pcmanfm
 				klavaro
-				barrier
+				#barrier
 				libsForQt5.kompare
-				qemu
+				#qemu
 
 				mpv
 				sxiv
@@ -159,9 +158,9 @@ in rec {
 				pavucontrol
 				libreoffice
 				epiphany
-				foot
-				conky
-				libappindicator-gtk3
+				#foot
+				#conky
+				#libappindicator-gtk3
 
 				emacs
 			] ++ (if isPi then [
@@ -169,8 +168,9 @@ in rec {
 				etcher
 				discord
 				zoom-us
-				wineWowPackages.stable
+				#wineWowPackages.stable
 				winetricks
+				wineStaging
 				mesa
 				lutris
 				spotify
@@ -179,15 +179,16 @@ in rec {
 				appimage-run
 				postman
 				spotify
-				firefox-wayland
-				#firefox
+				#firefox-wayland
+				firefox
 				brave
 				jetbrainsOverride.idea-community
 				teams
 				steam
 				#steam-tui
-				rpcs3
+				#rpcs3
 				virtualbox
+				arduino
 			]);
 
 			pythonVersion = "python39";
@@ -198,7 +199,7 @@ in rec {
 
 				gcc10
 				#clang_11
-				clang-tools
+				#clang-tools
 				flex
 				bison
 				boost175
@@ -223,9 +224,6 @@ in rec {
 
 				nodejs
 				nodePackages.nodemon
-
-				vala_0_50
-				gnome.vte
 
 				lean
 
@@ -252,33 +250,33 @@ in rec {
                 #ghc-vis
 			];
 
-			swayPackages = with pkgs; [
-				swayidle # Customise idle behaviour
-				##swaylock # Lock screen
-				swaylock-effects # Various fancy effects
-				#unstable.waybar # Info bar
-				grim # Take screenshot
-				slurp # Select area on screen
-				#mako # Notifications
-				wl-clipboard # Pipe: copy to clipboard
-				kanshi
-				xdg-desktop-portal-wlr
-				dmenu # Simple fuzzy item selection
-				wofi # Wayland rofi, dmenu alternative
-				wob # Show progress bar
-				flashfocus # Flash on window focus
-				libinput
-				libappindicator
-				brightnessctl # Control screen brightness
-				wf-recorder
-				libinput-gestures
-				gammastep
-			];
+#			swayPackages = with pkgs; [
+#				swayidle # Customise idle behaviour
+#				##swaylock # Lock screen
+#				swaylock-effects # Various fancy effects
+#				#unstable.waybar # Info bar
+#				grim # Take screenshot
+#				slurp # Select area on screen
+#				#mako # Notifications
+#				wl-clipboard # Pipe: copy to clipboard
+#				kanshi
+#				xdg-desktop-portal-wlr
+#				dmenu # Simple fuzzy item selection
+#				wofi # Wayland rofi, dmenu alternative
+#				wob # Show progress bar
+#				flashfocus # Flash on window focus
+#				libinput
+#				libappindicator
+#				brightnessctl # Control screen brightness
+#				wf-recorder
+#				libinput-gestures
+#				gammastep
+#			];
 		in cliMiscPackages
 		++ guiMiscPackages
 		++ programmingPackages
 		++ haskellPackages
-		++ swayPackages
+#		++ swayPackages
 		++ [(python38.withPackages pythonPackages)]
 	;
 
@@ -338,7 +336,7 @@ in rec {
 				};
 			};
 			switch-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-				pname = "lean-nvim";
+				pname = "switch-vim";
 				version = "1.0";
 				src = pkgs.fetchFromGitHub {
 					owner = "andrewradev";
@@ -376,6 +374,7 @@ in rec {
 			with pkgs.vimPlugins; [
 				# Aesthetics
 				gruvbox # Nice colour scheme
+				iceberg-vim # Dark blue colour scheme
 				vim-airline # Line at bottom of screen
 				vim-airline-themes
 
@@ -463,7 +462,7 @@ in rec {
 				tasklib
 			]);
        };
-    	xdg.configFile."nvim/coc-settings.json".text = readConfig /nvim/coc-settings.json;
+		#xdg.configFile."nvim/coc-settings.json".text = readConfig /nvim/coc-settings.json;
 
 	xdg.mimeApps = {
 		enable = true;
@@ -483,189 +482,189 @@ in rec {
 		}; # Check ~/.config/mimeapps.list for collisions
 	};
 
-	programs.mako = {
-		# https://github.com/nix-community/home-manager/blob/master/modules/services/mako.nix
-		enable = true;
-		maxVisible = 5;
-		sort = "+time";
-		anchor = "bottom-right";
-		font = pangoFont 10;
-		backgroundColor = "#" + gruvboxTheme.bg + "CC";
-		borderRadius = 2;
-		borderColor = "#" + gruvboxTheme.yellow;
-		defaultTimeout = 5000;
-	};
+#	programs.mako = {
+#		# https://github.com/nix-community/home-manager/blob/master/modules/services/mako.nix
+#		enable = true;
+#		maxVisible = 5;
+#		sort = "+time";
+#		anchor = "bottom-right";
+#		font = pangoFont 10;
+#		backgroundColor = "#" + gruvboxTheme.bg + "CC";
+#		borderRadius = 2;
+#		borderColor = "#" + gruvboxTheme.yellow;
+#		defaultTimeout = 5000;
+#	};
 
-	wayland.windowManager.sway = {
-		enable = true;
-		wrapperFeatures.gtk = true;
-		config = rec {
-			#fonts = {"${defaultFont}" = 15;} ;
-			#fonts = { "FiraCode" = 15; };
-			floating.criteria = [
-				{ "app_id" = "nm-connection-editor"; }
-				{ "app_id" = "pavucontrol"; }
-			];
-			input."*" = {
-				xkb_layout = "gb";
-				accel_profile = "flat";
-				pointer_accel = "-0.5";
-			};
-			output."*".bg = "${homeConfigDir}/sway/backgrounds/gruvbox-dark-rainbow.png fill";
-			terminal = defaultTerminal;
-			modifier = "Mod4";
-			#menu = "dmenu_path | wofi -i --show run --gtk-dark | xargs swaymsg exec --";
-			menu = "fish -c $(echo \"$(fish -c functions)\\n$(dmenu_path)\" | tr -s ', ' '\\n' | wofi -i --show dmenu --gtk-dark)";
-			bars = [
-				{
-					position = "top";
-					command = "${pkgs.waybar}/bin/waybar";
-				}
-			];
-			#gaps = {
-			#	inner = 0;
-			#	outer =  0;
-			#};
-			window.border = 2;
-
-			keybindings = with config.wayland.windowManager.sway.config; {
-				"${modifier}+Return" = "exec $(${homeConfigDir}/sway/scripts/open-terminal-cd.bash 'foot -D')"; # If alacritty, use '${terminal} -e'
-				"Ctrl+Mod1+t" = "exec ${terminal}"; # Gnome default
-				"${modifier}+d" = "exec ${menu}";
-				"${modifier}+w" = "exec epiphany";
-				"${modifier}+Shift+q" = "kill";
-
-				"${modifier}+${up}" = "focus up";
-				"${modifier}+${down}" = "focus down";
-				"${modifier}+${left}" = "focus left";
-				"${modifier}+${right}" = "focus right";
-			
-				"${modifier}+Up" = "focus up";
-				"${modifier}+Down" = "focus down";
-				"${modifier}+Left" = "focus left";
-				"${modifier}+Right" = "focus right";
-			
-				"${modifier}+Shift+${up}" = "move up";
-				"${modifier}+Shift+${down}" = "move down";
-				"${modifier}+Shift+${left}" = "move left";
-				"${modifier}+Shift+${right}" = "move right";
-			
-				"${modifier}+Shift+Up" = "move up";
-				"${modifier}+Shift+Down" = "move down";
-				"${modifier}+Shift+Left" = "move left";
-				"${modifier}+Shift+Right" = "move right";
-
-				"${modifier}+b" = "splith";
-				"${modifier}+v" = "splitv";
-
-				"${modifier}+1" = "workspace number 1";
-				"${modifier}+2" = "workspace number 2";
-				"${modifier}+3" = "workspace number 3";
-				"${modifier}+4" = "workspace number 4";
-				"${modifier}+5" = "workspace number 5";
-				"${modifier}+6" = "workspace number 6";
-				"${modifier}+7" = "workspace number 7";
-				"${modifier}+8" = "workspace number 8";
-				"${modifier}+9" = "workspace number 9";
-				"${modifier}+0" = "workspace number 10";
-			
-				"${modifier}+Shift+1" = "move container to workspace number 1";
-				"${modifier}+Shift+2" = "move container to workspace number 2";
-				"${modifier}+Shift+3" = "move container to workspace number 3";
-				"${modifier}+Shift+4" = "move container to workspace number 4";
-				"${modifier}+Shift+5" = "move container to workspace number 5";
-				"${modifier}+Shift+6" = "move container to workspace number 6";
-				"${modifier}+Shift+7" = "move container to workspace number 7";
-				"${modifier}+Shift+8" = "move container to workspace number 8";
-				"${modifier}+Shift+9" = "move container to workspace number 9";
-				"${modifier}+Shift+0" = "move container to workspace number 10";
-
-				"Ctrl+${modifier}+Left" = "workspace prev";
-				"Ctrl+${modifier}+Right" = "workspace next";
-
-				"Ctrl+${modifier}+${left}" = "workspace prev";
-				"Ctrl+${modifier}+${right}" = "workspace next";
-
-				"${modifier}+Shift+Space" = "floating toggle";
-				"${modifier}+Space" = "focus_mode toggle";
-				"${modifier}+f" = "fullscreen toggle";
-				#"${modifier}+n" = "exec flashfocus";
-				"XF86AudioRaiseVolume" = "exec amixer -q set Master 5%+ unmute && amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print substr($2, 0, length($2)-1) }' > /tmp/wobpipe";
-				"XF86AudioLowerVolume" = "exec amixer -q set Master 5%- unmute && amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print substr($2, 0, length($2)-1) }' > /tmp/wobpipe";
-				"XF86AudioMute" = "amixer sset Master toggle | sed -En '/\\[on\\]/ s/.*\\[([0-9]+)%\\].*/\\1/ p; /\\[off\\]/ s/.*/0/p' | head -1 > /tmp/wobpipe";
-				"XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
-				"XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
-				"Print" = "exec grim - | wl-copy";
-				"${modifier}+Print" = "exec grim -g \"$(slurp)\" - | wl-copy";
-			};
-
-			colors = rec {
-				unfocused = {
-					text = "#" + gruvboxTheme.red;
-					border = "#" + gruvboxTheme.red;
-					background = "#" + gruvboxTheme.red;
-
-					indicator = "#" + gruvboxTheme.gray;
-					childBorder = "#" + gruvboxTheme.gray;
-				};
-				focusedInactive = unfocused;
-				urgent = unfocused // {
-					indicator = "#" + gruvboxTheme.orange;
-					childBorder = "#" + gruvboxTheme.orange;
-				};
-				focused = unfocused // {
-					indicator = "#" + gruvboxTheme.yellow;
-					childBorder = "#" +  gruvboxTheme.yellow;
-				};
-			};
-		};
-
-		# swaymsg -t get_inputs
-		extraConfig = readConfig /sway/config;
-	};
-
-	programs.waybar = {
-		enable = true;
-    };
-	xdg.configFile."waybar/config".text = readConfig /waybar/config;
-	xdg.configFile."waybar/style.css".text = readConfig /waybar/style.css;
-	xdg.configFile."waybar/colours.css".text = readConfig /waybar/colours.css;
+#	wayland.windowManager.sway = {
+#		enable = true;
+#		wrapperFeatures.gtk = true;
+#		config = rec {
+#			#fonts = {"${defaultFont}" = 15;} ;
+#			#fonts = { "FiraCode" = 15; };
+#			floating.criteria = [
+#				{ "app_id" = "nm-connection-editor"; }
+#				{ "app_id" = "pavucontrol"; }
+#			];
+#			input."*" = {
+#				xkb_layout = "gb";
+#				accel_profile = "flat";
+#				pointer_accel = "-0.5";
+#			};
+#			output."*".bg = "${homeConfigDir}/sway/backgrounds/gruvbox-dark-rainbow.png fill";
+#			terminal = defaultTerminal;
+#			modifier = "Mod4";
+#			#menu = "dmenu_path | wofi -i --show run --gtk-dark | xargs swaymsg exec --";
+#			menu = "fish -c $(echo \"$(fish -c functions)\\n$(dmenu_path)\" | tr -s ', ' '\\n' | wofi -i --show dmenu --gtk-dark)";
+#			bars = [
+#				{
+#					position = "top";
+#					command = "${pkgs.waybar}/bin/waybar";
+#				}
+#			];
+#			#gaps = {
+#			#	inner = 0;
+#			#	outer =  0;
+#			#};
+#			window.border = 2;
+#
+#			keybindings = with config.wayland.windowManager.sway.config; {
+#				"${modifier}+Return" = "exec $(${homeConfigDir}/sway/scripts/open-terminal-cd.bash 'foot -D')"; # If alacritty, use '${terminal} -e'
+#				"Ctrl+Mod1+t" = "exec ${terminal}"; # Gnome default
+#				"${modifier}+d" = "exec ${menu}";
+#				"${modifier}+w" = "exec epiphany";
+#				"${modifier}+Shift+q" = "kill";
+#
+#				"${modifier}+${up}" = "focus up";
+#				"${modifier}+${down}" = "focus down";
+#				"${modifier}+${left}" = "focus left";
+#				"${modifier}+${right}" = "focus right";
+#			
+#				"${modifier}+Up" = "focus up";
+#				"${modifier}+Down" = "focus down";
+#				"${modifier}+Left" = "focus left";
+#				"${modifier}+Right" = "focus right";
+#			
+#				"${modifier}+Shift+${up}" = "move up";
+#				"${modifier}+Shift+${down}" = "move down";
+#				"${modifier}+Shift+${left}" = "move left";
+#				"${modifier}+Shift+${right}" = "move right";
+#			
+#				"${modifier}+Shift+Up" = "move up";
+#				"${modifier}+Shift+Down" = "move down";
+#				"${modifier}+Shift+Left" = "move left";
+#				"${modifier}+Shift+Right" = "move right";
+#
+#				"${modifier}+b" = "splith";
+#				"${modifier}+v" = "splitv";
+#
+#				"${modifier}+1" = "workspace number 1";
+#				"${modifier}+2" = "workspace number 2";
+#				"${modifier}+3" = "workspace number 3";
+#				"${modifier}+4" = "workspace number 4";
+#				"${modifier}+5" = "workspace number 5";
+#				"${modifier}+6" = "workspace number 6";
+#				"${modifier}+7" = "workspace number 7";
+#				"${modifier}+8" = "workspace number 8";
+#				"${modifier}+9" = "workspace number 9";
+#				"${modifier}+0" = "workspace number 10";
+#			
+#				"${modifier}+Shift+1" = "move container to workspace number 1";
+#				"${modifier}+Shift+2" = "move container to workspace number 2";
+#				"${modifier}+Shift+3" = "move container to workspace number 3";
+#				"${modifier}+Shift+4" = "move container to workspace number 4";
+#				"${modifier}+Shift+5" = "move container to workspace number 5";
+#				"${modifier}+Shift+6" = "move container to workspace number 6";
+#				"${modifier}+Shift+7" = "move container to workspace number 7";
+#				"${modifier}+Shift+8" = "move container to workspace number 8";
+#				"${modifier}+Shift+9" = "move container to workspace number 9";
+#				"${modifier}+Shift+0" = "move container to workspace number 10";
+#
+#				"Ctrl+${modifier}+Left" = "workspace prev";
+#				"Ctrl+${modifier}+Right" = "workspace next";
+#
+#				"Ctrl+${modifier}+${left}" = "workspace prev";
+#				"Ctrl+${modifier}+${right}" = "workspace next";
+#
+#				"${modifier}+Shift+Space" = "floating toggle";
+#				"${modifier}+Space" = "focus_mode toggle";
+#				"${modifier}+f" = "fullscreen toggle";
+#				#"${modifier}+n" = "exec flashfocus";
+#				"XF86AudioRaiseVolume" = "exec amixer -q set Master 5%+ unmute && amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print substr($2, 0, length($2)-1) }' > /tmp/wobpipe";
+#				"XF86AudioLowerVolume" = "exec amixer -q set Master 5%- unmute && amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print substr($2, 0, length($2)-1) }' > /tmp/wobpipe";
+#				"XF86AudioMute" = "amixer sset Master toggle | sed -En '/\\[on\\]/ s/.*\\[([0-9]+)%\\].*/\\1/ p; /\\[off\\]/ s/.*/0/p' | head -1 > /tmp/wobpipe";
+#				"XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
+#				"XF86MonBrightnessUp" = "exec brightnessctl set 5%+";
+#				"Print" = "exec grim - | wl-copy";
+#				"${modifier}+Print" = "exec grim -g \"$(slurp)\" - | wl-copy";
+#			};
+#
+#			colors = rec {
+#				unfocused = {
+#					text = "#" + gruvboxTheme.red;
+#					border = "#" + gruvboxTheme.red;
+#					background = "#" + gruvboxTheme.red;
+#
+#					indicator = "#" + gruvboxTheme.gray;
+#					childBorder = "#" + gruvboxTheme.gray;
+#				};
+#				focusedInactive = unfocused;
+#				urgent = unfocused // {
+#					indicator = "#" + gruvboxTheme.orange;
+#					childBorder = "#" + gruvboxTheme.orange;
+#				};
+#				focused = unfocused // {
+#					indicator = "#" + gruvboxTheme.yellow;
+#					childBorder = "#" +  gruvboxTheme.yellow;
+#				};
+#			};
+#		};
+#
+#		# swaymsg -t get_inputs
+#		extraConfig = readConfig /sway/config;
+#	};
+#
+#	programs.waybar = {
+#		enable = true;
+#    };
+#	xdg.configFile."waybar/config".text = readConfig /waybar/config;
+#	xdg.configFile."waybar/style.css".text = readConfig /waybar/style.css;
+#	xdg.configFile."waybar/colours.css".text = readConfig /waybar/colours.css;
 
 	programs.alacritty = {
 		enable = true;
 	};
-	xdg.configFile."alacritty/alacritty.yml".text = readConfig /alacritty/themes/gruvbox-material-alacritty.yml;
+	xdg.configFile."alacritty/alacritty.yml".text = readConfig /alacritty/themes/iceberg.yml;
 
-	programs.foot = {
-		enable = true;
-		settings = {
-			main = {
-				term = "foot";
-				font = "monospace:size=9";
-				dpi-aware = "yes";
-			};
-			colors = with gruvboxTheme; {
-				background = bg;
-				foreground = fg;
-				regular0 = bg;
-				regular1 = red;
-				regular2 = green;
-				regular3 = yellow;
-				regular4 = blue;
-				regular5 = purple;
-				regular6 = aqua;
-				regular7 = gray;
-				bright0 = "928374";
-				bright1 = "fb4934";
-				bright2 = "b8bb26";
-				bright3 = "fabd2f";
-				bright4 = "83a598";
-				bright5 = "d3869b";
-				bright6 = "8ec07c";
-				bright7 = "ebdbb2";
-			};
-		};
-	};
+#	programs.foot = {
+#		enable = true;
+#		settings = {
+#			main = {
+#				term = "foot";
+#				font = "monospace:size=9";
+#				dpi-aware = "yes";
+#			};
+#			colors = with gruvboxTheme; {
+#				background = bg;
+#				foreground = fg;
+#				regular0 = bg;
+#				regular1 = red;
+#				regular2 = green;
+#				regular3 = yellow;
+#				regular4 = blue;
+#				regular5 = purple;
+#				regular6 = aqua;
+#				regular7 = gray;
+#				bright0 = "928374";
+#				bright1 = "fb4934";
+#				bright2 = "b8bb26";
+#				bright3 = "fabd2f";
+#				bright4 = "83a598";
+#				bright5 = "d3869b";
+#				bright6 = "8ec07c";
+#				bright7 = "ebdbb2";
+#			};
+#		};
+#	};
 
 	programs.fish = {
 		enable = true;
@@ -769,11 +768,11 @@ in rec {
 	'';
 
 	xdg.configFile."lf/lfrc".text = readConfig /lf/lfrc;
-	home.file."nixos/home-manager/config/sway/scripts/job.yaml".text = ''
-- JOB: ${pkgs.interception-tools}/bin/intercept -g $DEVNODE | /home/alexs/apps/caps2esc-master/build/caps2esc| ${pkgs.interception-tools}/bin/uinput -d $DEVNODE
-  DEVICE:
-    EVENTS:
-      EV_KEY: [BTN_BACK, BTN_RIGHT]'';
+#	home.file."nixos/home-manager/config/sway/scripts/job.yaml".text = ''
+#- JOB: ${pkgs.interception-tools}/bin/intercept -g $DEVNODE | /home/alexs/apps/caps2esc-master/build/caps2esc| ${pkgs.interception-tools}/bin/uinput -d $DEVNODE
+#  DEVICE:
+#    EVENTS:
+#      EV_KEY: [BTN_BACK, BTN_RIGHT]'';
 	
 
 	programs.git = {
@@ -798,5 +797,5 @@ in rec {
 #		};
 #	};
 
-	home.stateVersion = "21.05";
+	home.stateVersion = "21.11";
 }

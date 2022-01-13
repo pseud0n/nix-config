@@ -23,7 +23,7 @@ set listchars=tab:·\
 set guicursor=n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,a:blinkon100
 
 let g:gruvbox_contrast_dark='soft'
-colorscheme gruvbox
+colorscheme iceberg
 
 " Always show tabs
 set showtabline=2

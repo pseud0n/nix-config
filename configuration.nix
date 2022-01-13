@@ -73,7 +73,7 @@ in {
 	xdg.portal.enable = true;
 	systemd.services.upower.enable = true;
 
-    programs.xwayland.enable = true;
+	programs.xwayland.enable = true;
 	programs.java.enable = true;
 
 	services = {
@@ -96,14 +96,15 @@ in {
 			enable = true;
 			desktopManager = {
 				#xterm.enable = false;
-				#plasma5.enable = true;
-				xfce.enable = true;
+				plasma5.enable = true;
+				#xfce.enable = true;
 			};
 			#videoDrivers = with pkgs; [
 			#	driversi686Linux.mesa
 			#];
 			displayManager = {
-				defaultSession = "sway";
+				defaultSession = "plasma";
+				sddm.enable = true;
 #				lightdm.greeters.mini = {
 #					enable = true;
 #					user = user;
@@ -128,10 +129,10 @@ in {
 
 	environment = {
 		variables = {
-			TERMINAL = "foot";
-			QT_QPA_PLATFORM = "wayland";
-			XDG_CURRENT_DESTKOP = "sway";
-			MOZ_ENABLE_WAYLAND = "1";
+			TERMINAL = "alacritty";
+			#QT_QPA_PLATFORM = "wayland";
+			#XDG_CURRENT_DESTKOP = "sway";
+			#MOZ_ENABLE_WAYLAND = "1";
 			#_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
 			JAVA_HOME = "$(dirname $(dirname $(readlink $(readlink $(which javac)))))";
 			GTK_THEME = "Adwaita:dark";
@@ -144,7 +145,7 @@ in {
 		};
 	};
 
-	programs.sway.enable = true;
+	#programs.sway.enable = true;
 #	programs.sway = {
 #		enable = true;
 #		wrapperFeatures.gtk = true;
@@ -193,7 +194,7 @@ in {
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
 	environment.systemPackages = with pkgs; [
-		sway
+		#sway
 		mako
 
 		vim
@@ -264,7 +265,7 @@ in {
 	# this value at the release version of the first install of this system.
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-	system.stateVersion = "21.05"; # Did you read the comment? No.
+	system.stateVersion = "21.11"; # Did you read the comment? No.
 
 }
 

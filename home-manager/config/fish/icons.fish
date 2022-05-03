@@ -1,3 +1,4 @@
+set fish_greeting
 set -x LF_ICONS "\
 tw=:\
 st=:\

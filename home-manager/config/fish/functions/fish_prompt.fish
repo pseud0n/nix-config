@@ -44,12 +44,13 @@ function fish_prompt --description 'Write out the prompt'
 	set info "$info " # add space if not empty string
 
     set_color -b normal
-    printf '%s%s%s%s' $last_status (set_color -o yellow) (prompt_pwd) "$info" (set_color white)
+    printf "%s%s%s" (set_color -o yellow) (prompt_pwd) "$info" (set_color white)
     if test $laststatus -eq 0
         printf "%s" (set_color -o green)
     else
-		printf "%s" (set_color -o red)
+		printf "%s%s " (set_color -o red) $laststatus 
     end
-	#●
-	printf "∿ %s" (set_color normal)
+	#
+	#∿
+	printf "● %s" (set_color normal)
 end

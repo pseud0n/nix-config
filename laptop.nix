@@ -1,8 +1,48 @@
 {config, lib, pkgs, ...}:
 {
 	boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+	# pkgs.linuxPackages_4_14
+	# pkgs.linuxPackages_4_14_hardened
+	# pkgs.linuxPackages_4_19
+	# pkgs.linuxPackages_4_19_hardened
+	# pkgs.linuxPackages_4_4
+	# pkgs.linuxPackages_4_9
+	# pkgs.linuxPackages_5_10
+	# pkgs.linuxPackages_5_10_hardened
+	# pkgs.linuxPackages_5_15
+	# pkgs.linuxPackages_5_15_hardened
+	# pkgs.linuxPackages_5_16
+	# pkgs.linuxPackages_5_17
+	# pkgs.linuxPackages_5_4
+	# pkgs.linuxPackages_5_4_hardened
+	# pkgs.linuxPackages_custom
+	# pkgs.linuxPackages_custom_tinyconfig_kernel
+	# pkgs.linuxPackages_hardened
+	# pkgs.linuxPackages_hardkernel_4_14
+	# pkgs.linuxPackages_hardkernel_latest
+	# pkgs.linuxPackages_latest
+	# pkgs.linuxPackages_latest-libre
+	# pkgs.linuxPackages_latest_hardened
+	# pkgs.linuxPackages_latest_xen_dom0
+	# pkgs.linuxPackages_latest_xen_dom0_hardened
+	# pkgs.linuxPackages_lqx
+	# pkgs.linuxPackages_mptcp
+	# pkgs.linuxPackages_rpi0
+	# pkgs.linuxPackages_rpi1
+	# pkgs.linuxPackages_rpi2
+	# pkgs.linuxPackages_rpi3
+	# pkgs.linuxPackages_rpi4
+	# pkgs.linuxPackages_rt_5_10
+	# pkgs.linuxPackages_rt_5_4
+	# pkgs.linuxPackages_testing
+	# pkgs.linuxPackages_testing_bcachefs
+	# pkgs.linuxPackages_testing_hardened
+	# pkgs.linuxPackages_xanmod
+	# pkgs.linuxPackages_xen_dom0
+	# pkgs.linuxPackages_xen_dom0_hardened
+	# pkgs.linuxPackages_zen
 	boot.kernelModules = [ "wl" ]; # set of kernel modules loaded in second stage of boot process
-	boot.initrd.kernelModules = [ "kvm-intel" "wl" ]; # list of modules always loaded by the initrd (initial ramdisk)
+	boot.initrd.kernelModules = [ "wl" "kvm-intel" ]; # list of modules always loaded by the initrd (initial ramdisk)
 	boot.kernelPackages = pkgs.linuxPackages_latest;
 
 	hardware.opengl = {

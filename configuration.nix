@@ -6,14 +6,12 @@
 # https://nixos.org/channels/nixos-unstable unstable
 # https://channels.nixos.org/nixos-21.05 nixos
 
-
 { config, lib, pkgs, ... }:
 
 let
 	#unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 	user = "alexs";
 	home = "/home/${user}";
-	homeManagerDir = "${home}/nixos/home-manager/config";
 	isPi = builtins.currentSystem == "aarch64-linux"; #!= "x86_64-linux";
 in {
 	imports =
@@ -22,7 +20,6 @@ in {
 			#./grub-savedefault.nix
 			#(import "${builtins.fetchTarball https://github.com/rycee/home-manager/archive/release-21.05.tar.gz}/nixos")
 			#./home-manager/home.nix
-			#pkgs.home-manager
 			<home-manager/nixos>
 		] ++ (if isPi then [
 			"${builtins.fetchTarball https://github.com/NixOS/nixos-hardware/archive/refs/tags/mnt-reform2-nitrogen8m-v1.tar.gz}/raspberry-pi/4"
@@ -43,6 +40,17 @@ in {
         	};
 
 	};
+
+	nix = {
+		package = pkgs.nixUnstable;
+		extraOptions = ''
+			experimental-features = nix-command flakes
+		'';
+	};
+
+	boot.loader.systemd-boot.enable = true;
+	boot.loader.efi.canTouchEfiVariables = true;
+	boot.tmpOnTmpfs = true; # use primary memory for /tmp
 	networking = {
 		networkmanager = {
 			enable = true;
@@ -51,6 +59,7 @@ in {
 		useDHCP = false;
 		interfaces.eno1.useDHCP = true;
 		hostName = "nixos";
+		#enableB43Firmware = true;
 	};
 
 	time.timeZone = "Europe/London";
@@ -73,13 +82,12 @@ in {
 	xdg.portal.enable = true;
 	systemd.services.upower.enable = true;
 
-	programs.xwayland.enable = true;
+	#programs.xwayland.enable = true;
 	programs.java.enable = true;
-
+	virtualisation = {
+		docker.enable = true;
+	};
 	services = {
-		flatpak.enable = true;
-	 	gnome.gnome-keyring.enable = true;
-	 	upower.enable = true;
 
 		#udev.extraHwdb = # Bus 001 Device 008: ID 0c45:760b Microdia USB Keyboard
 		#''
@@ -87,6 +95,15 @@ in {
 		#		KEYBOARD_KEY_70039=esc
 		#'';
 
+		udev.packages = with pkgs; [
+			numworks-udev-rules
+		];
+
+		flatpak.enable = true;
+	 	gnome.gnome-keyring.enable = true;
+		touchegg.enable = true;
+	 	upower.enable = true;
+		tor.enable = true;
 		mongodb = {
 			enable = true;
 			dbpath = "${home}/data/db";
@@ -94,55 +111,67 @@ in {
 		};
 		xserver = {
 			enable = true;
+			libinput.enable = true;
 			desktopManager = {
-				#xterm.enable = false;
-				plasma5.enable = true;
-				#xfce.enable = true;
 			};
 			#videoDrivers = with pkgs; [
 			#	driversi686Linux.mesa
 			#];
+			windowManager = {
+				openbox.enable = true;
+			};
 			displayManager = {
-				defaultSession = "plasma";
-				sddm.enable = true;
-#				lightdm.greeters.mini = {
-#					enable = true;
-#					user = user;
-#					extraConfig = ''
-#						[greeter]
-#						show-password-label = true
-#						password-alignment = center
-#						password-label-text = ♥♥♥♥♥
-#						[greeter-theme]
-#
-#						[greeter-theme]
-#						window-color = "#D79921"
-#						font-size = 1em
-#						background-image = "./home-manager/config/sway/backgrounds/gruvbox-dark-rainbow.png"
-#						border-width = 1px
-#					'';
-#				};
+				defaultSession = "none+openbox";
+				lightdm.enable = true;
+				gdm = {
+					enable = false;
+					wayland = false;
+				};
+				lightdm.greeters.mini = {
+					enable = true;
+					user = user;
+					extraConfig = ''
+						[greeter]
+						show-password-label = false
+						password-alignment = center
+						user = ${user}
+						invalid-password-text = ×
+
+						[greeter-theme]
+						window-color = "#5b00f0"
+						font-size = 0.8em
+						background-image = "/home/alexs/Pictures/bg/no-confluence-purple.png"
+						layout-space = 30
+						border-width = 0px
+
+						[greeter-hotkeys]
+						mod-key = meta
+						shutdown-key = s
+						restart-key = r
+						hibernate-key = h
+						suspend-key = u
+					'';
+				};
 			};
 			layout = "gb";
+		};
+		postgresql = {
+			enable = true;
+			package = pkgs.postgresql_14;
+			authentication = lib.mkForce ''
+				# Generated file; do not edit!
+				# TYPE  DATABASE        USER            ADDRESS                 METHOD
+				local   all             all                                     trust
+				host    all             all             127.0.0.1/32            trust
+				host    all             all             ::1/128                 trust
+				'';
 		};
 	};
 
 	environment = {
 		variables = {
-			TERMINAL = "alacritty";
-			#QT_QPA_PLATFORM = "wayland";
-			#XDG_CURRENT_DESTKOP = "sway";
-			#MOZ_ENABLE_WAYLAND = "1";
-			#_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
-			JAVA_HOME = "$(dirname $(dirname $(readlink $(readlink $(which javac)))))";
-			GTK_THEME = "Adwaita:dark";
-			DEV_DIR = "$HOME/dev";
-			HOME_MANAGER_DIR = homeManagerDir;
 		};
-		etc = {
-			"xdg/gtk-2.0".source = homeManagerDir + "/gtk/gtk-2.0";
-			"xdg/gtk-3.0".source = homeManagerDir + "/gtk/gtk-3.0";
-		};
+		#gnome.excludePackages = with pkgs.gnome; [ cheese gnome-photos gnome-music gnome-terminal gedit epiphany evince gnome-characters totem tali iagno hitori atomix geary ];
 	};
 
 	#programs.sway.enable = true;
@@ -159,21 +188,21 @@ in {
 
 	programs.fish.enable = true;
 
-	security.doas = {
-		enable = true;
-		extraRules = [{
-		    users = [ user ];
-		    keepEnv = true;
-		}];
-		extraConfig = "permit :wheel";
-	};
+	#security.doas = {
+	#	enable = true;
+	#	extraRules = [{
+	#	    users = [ user ];
+	#	    keepEnv = true;
+	#	}];
+	#	extraConfig = "permit :wheel";
+	#};
 
 	home-manager.users."${user}" = import ./home-manager/home.nix; 
 	users.users."${user}" = {
 		shell = pkgs.fish;
 		home = home;
 		isNormalUser = true;
-		extraGroups = [ "wheel" "video" "networkmanager" "dialout" ]; # Enable ‘sudo’ for the user.
+		extraGroups = [ "wheel" "video" "networkmanager" "dialout" "docker" ]; # Enable ‘sudo’ for the user.
 	};
 
 	fonts.fonts = with pkgs; [
@@ -194,15 +223,16 @@ in {
 	# List packages installed in system profile. To search, run:
 	# $ nix search wget
 	environment.systemPackages = with pkgs; [
-		#sway
-		mako
-
-		vim
+		# The essentials
 		nano
+		vim
+		neovim
+		leafpad
+
+		epiphany
 
 		git
 
-		#mono
 		vulkan-tools
 
 		gparted
@@ -217,11 +247,8 @@ in {
 		networkmanager
 		unzip
 		libsecret
-
-		agenda
-
-		#interception-tools
-		#home-manager
+		usermount
+		broadcom-bt-firmware
 	];
 
 #	system.activationScripts = {

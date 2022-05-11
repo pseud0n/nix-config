@@ -1,0 +1,20 @@
+
+xmodmap ~/.Xmodmap &
+feh --bg-fill /home/alexs/Pictures/bg/no-confluence-purple-cerebral-only-eyes.png &
+
+mkfifo /tmp/xobpipe &
+tail -f /tmp/xobpipe | xob &
+
+# oneko -neko -towindow -bg purple -speed 32 &
+
+parcellite &
+
+flameshot &
+
+~/.config/conky/run-conkys.bash &
+
+#guake --hide &
+
+lxqt-notificationd &
+
+tint2 &

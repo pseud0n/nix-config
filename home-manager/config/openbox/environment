@@ -1,0 +1,1 @@
+export PATH=$HOME_MANAGER_DIR/openbox/scripts:$PATH

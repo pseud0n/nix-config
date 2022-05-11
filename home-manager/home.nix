@@ -91,6 +91,7 @@ in rec {
 		config/neovim/neovim.nix
 		config/git/git.nix
 		config/alacritty/alacritty.nix
+		config/openbox/openbox.nix
 		config/lf/lf.nix
 		#config/sway/sway.nix
 		#config/waybar/waybar.nix
@@ -125,133 +126,144 @@ in rec {
 #					ref = "master";
 #					rev = "4a62ec17e20ce0e738a8e5126b4298a73903b468";
 #				}) {})
+				#jack1
+				arj # ARJ open source implementation
+				bat # Better cat
+				brightnessctl
 				busybox # Various bits
 				cava # Cool audio visualiser
-				gettext # msgmerge
-				taskwarrior
-				imagemagick
-				bat # Better cat
-				nix-prefetch-git # Find info about repo for Nix
-				lf
-				neofetch # show cool logo and useless info
-				pfetch # mini neofetch
-				ripgrep # recursively search for files
+				dcfldd
 				fd # 'find' alternative
 				flatpak # Run programs in isolated env with deps managed
-				lsd # Better ls
-				htop # View tasks
-				hexyl # View hex files
-				#jack1
-				xboxdrv # Xbox controller suppport
-				libxkbcommon
-				xdg-utils
-				libinput
-				jq
-				pkg-config
+				gettext # msgmerge
 				glib-networking
+				hexyl # View hex files
+				htop # View tasks
+				imagemagick
+				jmtpfs
+				jq
+				lf
+				lhasa # lha free implementation
+				libinput
+				libxkbcommon
+				lsd # Better ls
+				neofetch # show cool logo and useless info
+				nix-prefetch-git # Find info about repo for Nix
+				p7zip
+				parted
+				pfetch # mini neofetch
+				pkg-config
+				rar
+				ripgrep # recursively search for files
+				rnix-lsp # LSP for Nix Expression Language
+				taskwarrior
+				tlp # Battery management
 				trash-cli # Recycle
-				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
+				xboxdrv # Xbox controller suppport
+				xdg-utils
 				xorg.libXcomposite
 				xorg.xev
+				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
 				xorg.xmodmap
-				brightnessctl
-				jmtpfs
-				parted
-				p7zip
 				zip
-				lhasa # lha free implementation
-				rar
-				arj # ARJ open source implementation
-				rnix-lsp # LSP for Nix Expression Language
 			];
 
 			guiMiscPackages = with pkgs; [
-				webcamoid
-				xarchiver # archiver frontend
-				fstl # Simple STL viewer
-				skippy-xd
-				#gtk-engine-murrine
-				#gtk_engines
-				#gsettings-desktop-schemas
-				#glib
-				#gtk3
-				hicolor-icon-theme
-				#transmission-remote-gtk
-				gnome3.adwaita-icon-theme
-				#gnome-breeze
-				lxsession
-				lxappearance
-				lxtask
-				lxqt.lxqt-notificationd
-				guake
-				picom
-				rofi
-				dmenu
-				xorg.xbacklight
-				xob
-				artha
-				deluge
-				thunderbird
-				agenda
-				mupdf
-				plasma5Packages.kdenlive
-				gimp
-				pcmanfm
-				dolphin
-				xfce.thunar
-				klavaro
-				barrier
-				libsForQt5.kompare
-				#qemu
-				inkscape
-				mpv
-				sxiv
-				dragon-drop
-				libnotify
-				gnome.networkmanagerapplet
-				pavucontrol
-				flameshot
-				xob
-				pamixer
-				libreoffice
-				epiphany
+				#eclipses.eclipse-java
 				#foot
-				conky
-				libappindicator-gtk3
-				obconf
-				emacs
-				weka
-			] ++ (if isPi then [
-			] else [
-				etcher
-				discord
-				zoom-us
-				wineWowPackages.stable
-				winetricks
-				wineStaging
-				mono
-				mesa
-				lutris
-				blender
-				appimage-run
-				postman
-				spotify
-				firefox
+				#glib
+				#gnome-breeze
+				#gsettings-desktop-schemas
+				#gtk-engine-murrine
+				#gtk3
+				#gtk_engines
 				#latest.firefox-nightly-bin # firefox-overlay.nix
+				#qemu
+				#steam-tui
+				#transmission-remote-gtk
+				agenda
+				appimage-run
+				arduino
+				artha
+				barrier
+				blender
 				brave
+				conky
+				colorpicker
+				deluge
+				discord
+				dmenu
+				dolphin
+				dragon-drop
+				emacs
+				epiphany
+				etcher
+				feh
+				firefox
+				flameshot
+				fstl # Simple STL viewer
+				gimp
+				gnome.networkmanagerapplet
+				gnome3.adwaita-icon-theme
+				gpick
+				guake
+				hicolor-icon-theme
+				inkscape
+				jetbrainsOverride.idea-community
+				klavaro
+				libappindicator-gtk3
+				libnotify
+				libreoffice
+				libsForQt5.kdeconnect-kde
+				libsForQt5.kompare
+				lutris
+				lxappearance
+				lxqt.lxqt-notificationd
+				lxqt.lxqt-qtplugin
+				lxqt.lxqt-runner
+				lxqt.pavucontrol-qt
+				lxqt.qlipper
+				lxqt.qterminal
+				lxsession
+				lxtask
+				mesa
+				mono
+				mpv
+				mupdf
+				obconf
+				oneko
+				pamixer
+				parcellite
+				pavucontrol
+				pcmanfm
+				picom
+				plasma5Packages.kdenlive
+				postman
+				rofi
+				rpcs3
+				skippy-xd
+				spotify
+				steam
+				sxiv
+				teams
+				thunderbird
+				tint2
 				tor
 				ungoogled-chromium
-				jetbrainsOverride.idea-community
-				#eclipses.eclipse-java
-				teams
-				steam
-				#steam-tui
-				rpcs3
-				arduino
-				tint2
-				feh
-				parcellite
-				oneko
+				webcamoid
+				weka
+				wineStaging
+				wineWowPackages.stable
+				winetricks
+				worker
+				xarchiver # archiver frontend
+				xfce.thunar
+				xob
+				xob
+				xorg.xbacklight
+				zoom-us
+			] ++ (if isPi then [
+			] else [
 			]);
 
 			pythonVersion = "python39";
@@ -280,6 +292,7 @@ in rec {
 				maven
 				jdk11
 				openjfx15
+				postgresql_jdbc
 				#scenebuilder
 				#java-language-server
 
@@ -389,6 +402,8 @@ in rec {
 	;
 
 	programs.bat.enable = true;
+
+	#programs.dconf.enable = true;
 
 	#xdg.configFile."nvim/coc-settings.json".text = readConfig /nvim/coc-settings.json;
 

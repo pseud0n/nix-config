@@ -181,10 +181,23 @@ in {
 #	};
 
 	sound.enable = true;
-	hardware.pulseaudio = {
-		enable = true;
-		package = pkgs.pulseaudioFull;
+	hardware = {
+		enableAllFirmware = true;
+		pulseaudio = {
+			enable = true;
+			package = pkgs.pulseaudioFull;
+			extraModules = [ pkgs.pulseaudio-modules-bt ];
+		};
+		bluetooth = {
+			enable = true;
+			settings = {
+				General = {
+					Enable = "Source,Sink,Media,Socket";
+				};
+			};
+		};
 	};
+	services.blueman.enable = true; # If no GUI available
 
 	programs.fish.enable = true;
 
@@ -202,7 +215,7 @@ in {
 		shell = pkgs.fish;
 		home = home;
 		isNormalUser = true;
-		extraGroups = [ "wheel" "video" "networkmanager" "dialout" "docker" ]; # Enable ‘sudo’ for the user.
+		extraGroups = [ "wheel" "video" "networkmanager" "dialout" "docker" "bluetooth" ]; # Enable ‘sudo’ for the user.
 	};
 
 	fonts.fonts = with pkgs; [
@@ -249,6 +262,9 @@ in {
 		libsecret
 		usermount
 		broadcom-bt-firmware
+		bluez
+		bluez-tools
+		bluez-alsa
 	];
 
 #	system.activationScripts = {
@@ -283,8 +299,6 @@ in {
 	# Or disable the firewall altogether.
 	networking.firewall.enable = false;
 
-	hardware.bluetooth.enable = true;
-	services.blueman.enable = true; # If no GUI available
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions

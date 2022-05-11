@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu>
+    <menu id="root-menu" label="OpenBox 3">
+        <menu id="00" label="Quick">
+            <item label="Launcher"> <action name="Execute">
+                <execute>rofi -show drun -font "Hack Nerd Font 18" -terminal alacritty</execute>
+            </action> </item>
+            <item label="Terminal"> <action name="Execute">
+                <execute>alacritty</execute>
+            </action> </item>
+            <item label="Web Browser"> <action name="Execute">
+                <execute>firefox</execute>
+            </action> </item>
+            <item label="File Manager"> <action name="Execute">
+                <execute>worker</execute>
+            </action> </item>
+            <item label="Editor"> <action name="Execute">
+                <execute>alacritty -e nvim</execute>
+            </action> </item>
+		</menu>
+        <separator/>
+        <menu id="01" label="Development">
+            <item label="Python REPL"> <action name="Execute">
+                <execute>alacritty -e bpython</execute>
+            </action> </item>
+            <item label="Haskell REPL"> <action name="Execute">
+                <execute>alacritty -e ghci</execute>
+            </action> </item>
+            <item label="Clojure REPL"> <action name="Execute">
+                <execute>alacritty -e lein repl</execute>
+            </action> </item>
+            <item label="Java REPL"> <action name="Execute">
+                <execute>alacritty -e jshell</execute>
+            </action> </item>
+            <item label="JavaScript REPL"> <action name="Execute">
+                <execute>alacritty -e node</execute>
+            </action> </item>
+            <item label="Prolog REPL"> <action name="Execute">
+                <execute>alacritty -e gprolog</execute>
+            </action> </item>
+            <item label="Postgres REPL"> <action name="Execute">
+                <execute>alacritty -e psql -U postgres</execute>
+            </action> </item>
+            <item label="Nix REPL"> <action name="Execute">
+                <execute>alacritty -e nix repl</execute>
+            </action> </item>
+            <item label="IDEA"> <action name="Execute">
+                <execute>idea-community</execute>
+            </action> </item>
+            <item label="Arduino"> <action name="Execute">
+                <execute>arduino</execute>
+            </action> </item>
+            <item label="IDLE"> <action name="Execute">
+                <execute>nix-shell -p python39Packages.tkinter --run idle</execute>
+            </action> </item>
+        </menu>
+        <menu id="02" label="Editors">
+            <item label="Emacs"> <action name="Execute">
+                <execute>emacs</execute>
+            </action> </item>
+            <item label="Leafpad"> <action name="Execute">
+                <execute>leafpad</execute>
+            </action> </item>
+            <item label="Nano"> <action name="Execute">
+                <execute>alacritty -e nano</execute>
+            </action> </item>
+            <item label="Vi"> <action name="Execute">
+                <execute>alacritty -e vi</execute>
+            </action> </item>
+            <item label="Vim"> <action name="Execute">
+                <execute>alacritty -e vim</execute>
+            </action> </item>
+            <item label="Neovim"> <action name="Execute">
+                <execute>alacritty -e nvim</execute>
+            </action> </item>
+        </menu>
+        <menu id="03" label="Games">
+            <item label="Lutris"> <action name="Execute">
+                <execute>lutris</execute>
+            </action> </item>
+            <item label="Steam"> <action name="Execute">
+                <execute>steam</execute>
+            </action> </item>
+        </menu>
+        <menu id="04" label="Graphics">
+            <item label="LibreOffice Draw"> <action name="Execute">
+                <execute>libreoffice --draw</execute>
+            </action> </item>
+            <item label="Inkscape"> <action name="Execute">
+                <execute>inkscape</execute>
+            </action> </item>
+            <item label="GIMP"> <action name="Execute">
+                <execute>gimp</execute>
+            </action> </item>
+            <item label="Blender"> <action name="Execute">
+                <execute>blender</execute>
+            </action> </item>
+            <item label="Colour Picker"> <action name="Execute">
+                <execute>colorpicker</execute>
+            </action> </item>
+            <item label="G Picker"> <action name="Execute">
+                <execute>gpick</execute>
+            </action> </item>
+        </menu>
+        <menu id="05" label="Multimedia">
+            <item label="ALSA mixer"> <action name="Execute">
+                <execute>alacritty -e alsamixer -m -V all</execute>
+            </action> </item>
+            <item label="mpv Media Player"> <action name="Execute">
+                <execute>mpv --player-operation-mode=pseudo-gui</execute>
+            </action> </item>
+            <item label="PulseAudio Volume Control"> <action name="Execute">
+                <execute>pavucontrol</execute>
+            </action> </item>
+            <item label="Spotify"> <action name="Execute">
+                <execute>spotify</execute>
+            </action> </item>
+            <item label="umpv Media Player"> <action name="Execute">
+                <execute>umpv --player-operation-mode=pseudo-gui</execute>
+            </action> </item>
+        </menu>
+        <menu id="06" label="Web">
+            <item label="Discord"> <action name="Execute">
+                <execute>Discord</execute>
+            </action> </item>
+            <item label="Firefox"> <action name="Execute">
+                <execute>firefox</execute>
+            </action> </item>
+            <item label="Thunderbird"> <action name="Execute">
+                <execute>thunderbird</execute>
+            </action> </item>
+            <item label="Zoom"> <action name="Execute">
+                <execute>zoom</execute>
+            </action> </item>
+            <item label="MS Teams"> <action name="Execute">
+                <execute>teams</execute>
+            </action> </item>
+            <item label="Epiphany"> <action name="Execute">
+                <execute>epiphany</execute>
+            </action> </item>
+        </menu>
+        <menu id="07" label="Office">
+            <item label="Agenda"> <action name="Execute">
+                <execute>com.github.dahenson.agenda</execute>
+            </action> </item>
+            <item label="LibreOffice 7.1 Impress"> <action name="Execute">
+                <execute>libreoffice</execute>
+            </action> </item>
+            <item label="LibreOffice Calc"> <action name="Execute">
+                <execute>libreoffice --calc</execute>
+            </action> </item>
+            <item label="LibreOffice Impress"> <action name="Execute">
+                <execute>libreoffice --impress</execute>
+            </action> </item>
+            <item label="LibreOffice Math"> <action name="Execute">
+                <execute>libreoffice --math</execute>
+            </action> </item>
+            <item label="LibreOffice Writer"> <action name="Execute">
+                <execute>libreoffice --writer</execute>
+            </action> </item>
+        </menu>
+        <menu id="08" label="Shells">
+            <item label="Alacritty"> <action name="Execute">
+                <execute>alacritty</execute>
+            </action> </item>
+			<menu id="0800" label="Alacritty From">
+				<item label="NixOS"> <action name="Execute">
+						<execute>alacritty --working-directory ~/nixos</execute>
+				</action></item>
+				<item label="Development"> <action name="Execute">
+						<execute>alacritty --working-directory ~/dev</execute>
+				</action></item>
+				<item label="Vimwiki"> <action name="Execute">
+						<execute>alacritty --working-directory ~/vimwiki</execute>
+				</action></item>
+				<item label="Lectures"> <action name="Execute">
+						<execute>alacritty --working-directory ~/vimwiki/lectures</execute>
+				</action></item>
+				<item label="Latest Lectures"> <action name="Execute">
+						<execute>sh -c "alacritty --working-directory ~/vimwiki/lectures/$(ls ~/vimwiki/lectures -t | head -n 1)"</execute>
+				</action></item>
+				<item label="Config"> <action name="Execute">
+						<execute>alacritty --working-directory ~/.config</execute>
+				</action></item>
+				<item label="Temporary"> <action name="Execute">
+						<execute>alacritty --working-directory /tmp</execute>
+				</action></item>
+			</menu>
+            <item label="lf"> <action name="Execute">
+                <execute>alacritty -e lf</execute>
+            </action> </item>
+            <item label="Xterm"> <action name="Execute">
+                <execute>xterm</execute>
+            </action> </item>
+            <item label="XTerm (Unicode)"> <action name="Execute">
+                <execute>uxterm</execute>
+            </action> </item>
+        </menu>
+        <menu id="09" label="System">
+            <menu id="0900" label="Settings">
+                <item label="Desktop Session Settings"> <action name="Execute">
+                    <execute>lxsession-edit</execute>
+                </action> </item>
+                <item label="Manage Printing"> <action name="Execute">
+                    <execute>xdg-open http://localhost:631/</execute>
+                </action> </item>
+            </menu>
+            <item label="Disk Management"> <action name="Execute">
+                <execute>usermount</execute>
+            </action> </item>
+            <item label="fish"> <action name="Execute">
+                <execute>xterm -e fish</execute>
+            </action> </item>
+            <item label="GParted"> <action name="Execute">
+                <execute>gparted</execute>
+            </action> </item>
+            <item label="Htop"> <action name="Execute">
+                <execute>xterm -e htop</execute>
+            </action> </item>
+            <item label="NixOS Manual"> <action name="Execute">
+                <execute>nixos-help</execute>
+            </action> </item>
+            <item label="Top"> <action name="Execute">
+                <execute>xterm -e top</execute>
+            </action> </item>
+        </menu>
+        <menu id="10" label="Utilities">
+            <item label="Neofetch"> <action name="Execute">
+                <execute>alacritty -e neofetch</execute>
+            </action> </item>
+            <item label="Lxappearance"> <action name="Execute">
+                <execute>lxappearance</execute>
+            </action> </item>
+            <item label="Lxtask"> <action name="Execute">
+                <execute>lxtask</execute>
+            </action> </item>
+            <item label="Xmodmap"> <action name="Execute">
+				<execute>xmodmap ~/.Xmodmap</execute>
+            </action> </item>
+        </menu>
+        <separator/>
+        <menu id="11" label="OpenBox">
+            <menu id="client-list-menu"/>
+            <item label="Reconfigure"> <action name="Reconfigure"/> </item>
+            <separator/>
+            <item label="Exit"> <action name="Exit"/> </item>
+			<item label="Shut Down"> <action name="Execute"/>
+				<execute>shutdown now</execute>
+			</item>
+			<item label="Reboot"> <action name="Execute"/>
+				<execute>reboot</execute>
+			</item>
+        </menu>
+    </menu>
+</openbox_menu>

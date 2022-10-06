@@ -43,7 +43,7 @@
 	# pkgs.linuxPackages_zen
 	boot.kernelModules = [ "wl" ]; # set of kernel modules loaded in second stage of boot process
 	boot.initrd.kernelModules = [ "wl" "kvm-intel" ]; # list of modules always loaded by the initrd (initial ramdisk)
-	boot.kernelPackages = pkgs.linuxPackages_latest;
+	boot.kernelPackages = pkgs.linuxPackages;
 
 	hardware.opengl = {
 		enable = true;

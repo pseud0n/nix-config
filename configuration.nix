@@ -86,6 +86,10 @@ in {
 	programs.java.enable = true;
 	virtualisation = {
 		docker.enable = true;
+		virtualbox.host = {
+			enable = true;
+			enableExtensionPack = true;
+		};
 	};
 	services = {
 
@@ -186,7 +190,7 @@ in {
 		pulseaudio = {
 			enable = true;
 			package = pkgs.pulseaudioFull;
-			extraModules = [ pkgs.pulseaudio-modules-bt ];
+			extraModules = [];
 		};
 		bluetooth = {
 			enable = true;
@@ -211,11 +215,14 @@ in {
 	#};
 
 	home-manager.users."${user}" = import ./home-manager/home.nix; 
-	users.users."${user}" = {
-		shell = pkgs.fish;
-		home = home;
-		isNormalUser = true;
-		extraGroups = [ "wheel" "video" "networkmanager" "dialout" "docker" "bluetooth" ]; # Enable ‘sudo’ for the user.
+	users = {
+		users."${user}" = {
+			shell = pkgs.fish;
+			home = home;
+			isNormalUser = true;
+			extraGroups = [ "wheel" "video" "networkmanager" "dialout" "docker" "bluetooth" "vboxusers" ]; # Enable ‘sudo’ for the user.
+		};
+	   extraGroups.vboxusers.members = [ user ];
 	};
 
 	fonts.fonts = with pkgs; [
@@ -261,10 +268,12 @@ in {
 		unzip
 		libsecret
 		usermount
-		broadcom-bt-firmware
+		#broadcom-bt-firmware
 		bluez
 		bluez-tools
 		bluez-alsa
+
+		xorg.libX11
 	];
 
 #	system.activationScripts = {
@@ -306,7 +315,7 @@ in {
 	# this value at the release version of the first install of this system.
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-	system.stateVersion = "21.11"; # Did you read the comment? No.
+	system.stateVersion = "22.05"; # Did you read the comment? No.
 
 }
 

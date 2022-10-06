@@ -175,7 +175,7 @@ programs.neovim = {
 				haskell-vim
 				ghcmod-vim # Types inline
 
-				coc-nvim
+				#coc-nvim
 
 				# Python
 				coc-pyright

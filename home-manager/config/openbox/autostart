@@ -1,9 +1,9 @@
 
-xmodmap ~/.Xmodmap &
-feh --bg-fill /home/alexs/Pictures/bg/no-confluence-purple-cerebral-only-eyes.png &
+#xmodmap ~/.Xmodmap &
+feh --bg-max /home/alexs/Pictures/bg/no-confluence-purple-cerebral-only-eyes.png &
 
-mkfifo /tmp/xobpipe &
-tail -f /tmp/xobpipe | xob &
+#mkfifo /tmp/xobpipe &
+#tail -f /tmp/xobpipe | xob &
 
 # oneko -neko -towindow -bg purple -speed 32 &
 
@@ -17,4 +17,10 @@ flameshot &
 
 lxqt-notificationd &
 
-tint2 &
+#tint2 &
+
+skippy-xd --start-daemon &
+
+eww open info &
+eww open workspaces &
+trayer --edge top --align center --widthtype request --height 18 --transparent true --alpha 0 --tint 0x6700a2 &

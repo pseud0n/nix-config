@@ -55,6 +55,8 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 
+nnoremap <C-A> ggVG
+
 "map <ScrollWheelUp> <C-U>
 "map <ScrollWheelDown> <C-D>
 
@@ -131,7 +133,7 @@ nnoremap Y yg_
 
 vnoremap <leader>y "+y
 vnoremap <leader>y "+y
-nnoremap <leader>Y "+Y
+nnoremap <leader>Y "+yg_
 nnoremap <leader>y "+y
 nnoremap <leader>yy "+yy
 
@@ -152,7 +154,7 @@ function! ToggleTabMode()
 endfunction
 
 
-map <leader>ct :call ToggleTabMode()<CR>
+map <leader>wt :call ToggleTabMode()<CR>
 
 let s:wrapenabled = 0
 function! ToggleWrap()
@@ -180,7 +182,7 @@ function! ToggleWrap()
 	let s:wrapenabled = 1
   endif
 endfunction
-map <leader>cw :call ToggleWrap()<CR>
+map <leader>ww :call ToggleWrap()<CR>
 
 function! WebOpen()
 	!brave expand('%:p')

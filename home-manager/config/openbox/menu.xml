@@ -14,14 +14,20 @@
             <item label="File Manager"> <action name="Execute">
                 <execute>worker</execute>
             </action> </item>
+            <item label="Calculator"> <action name="Execute">
+                <execute>qalculate-gtk</execute>
+            </action> </item>
             <item label="Editor"> <action name="Execute">
-                <execute>alacritty -e nvim</execute>
+                <execute>emacs</execute>
             </action> </item>
 		</menu>
         <separator/>
-        <menu id="01" label="Development">
+        <menu id="01" label="Dev">
             <item label="Python REPL"> <action name="Execute">
                 <execute>alacritty -e bpython</execute>
+            </action> </item>
+            <item label="IDLE"> <action name="Execute">
+                <execute>idle</execute>
             </action> </item>
             <item label="Haskell REPL"> <action name="Execute">
                 <execute>alacritty -e ghci</execute>
@@ -81,10 +87,22 @@
             <item label="Steam"> <action name="Execute">
                 <execute>steam</execute>
             </action> </item>
+            <item label="PolyMC"> <action name="Execute">
+                <execute>polymc</execute>
+            </action> </item>
         </menu>
         <menu id="04" label="Graphics">
+            <item label="Monitors"> <action name="Execute">
+                <execute>arandr</execute>
+            </action> </item>
             <item label="LibreOffice Draw"> <action name="Execute">
                 <execute>libreoffice --draw</execute>
+            </action> </item>
+            <item label="Xournal++"> <action name="Execute">
+                <execute>xournalpp</execute>
+            </action> </item>
+            <item label="Xournal"> <action name="Execute">
+                <execute>xournal</execute>
             </action> </item>
             <item label="Inkscape"> <action name="Execute">
                 <execute>inkscape</execute>
@@ -115,8 +133,8 @@
             <item label="Spotify"> <action name="Execute">
                 <execute>spotify</execute>
             </action> </item>
-            <item label="umpv Media Player"> <action name="Execute">
-                <execute>umpv --player-operation-mode=pseudo-gui</execute>
+            <item label="Clementine"> <action name="Execute">
+                <execute>clementine</execute>
             </action> </item>
         </menu>
         <menu id="06" label="Web">
@@ -245,10 +263,10 @@
             <separator/>
             <item label="Exit"> <action name="Exit"/> </item>
 			<item label="Shut Down"> <action name="Execute"/>
-				<execute>shutdown now</execute>
+				<execute>systemctl poweroff</execute>
 			</item>
 			<item label="Reboot"> <action name="Execute"/>
-				<execute>reboot</execute>
+				<execute>systemctl reboot</execute>
 			</item>
         </menu>
     </menu>

@@ -37,8 +37,10 @@ let
 	jetbrainsOverride = import ./pins/jetbrains/default.nix {
 		inherit lib stdenv callPackage fetchurl
 		cmake zlib python3
-		dotnet-sdk_5
 		autoPatchelfHook
+		dotnet-sdk_6
+		maven
+		gdb
 		libdbusmenu;
 		jdk = jdk11;
 	};
@@ -46,8 +48,9 @@ let
 	doom-emacs = pkgs.callPackage (builtins.fetchTarball {
 		url = https://github.com/vlaci/nix-doom-emacs/archive/master.tar.gz;
 	}) {
-		doomPrivateDir = ./config/emacs/doom.d;  # Directory containing your config.el init.el
-									# and packages.el files
+		doomPrivateDir = ./config/emacs/doom.d;
+		# Directory containing your config.el init.el
+		# and packages.el files
 	};
 
 	flypie = callPackage ./config/gnome/buildGnomeExtension.nix {
@@ -74,11 +77,12 @@ let
 in rec {
 	nixpkgs = {
 		config = {
+			services.tumbler.enable = true;
 			programs.home-manager.enable = true;
 			allowUnfree = true;
 			allowBroken = false;
 			permittedInsecurePackages = [
-				"electron-14.2.9"
+				"electron-12.2.3"
 			];
 		};
 		overlays = [
@@ -116,6 +120,10 @@ in rec {
 
 	services = {
 		picom.enable = true;
+		emacs = {
+			enable = true;
+			#package = doom-emacs;
+		};
 	};
 
 	home.packages =
@@ -129,6 +137,7 @@ in rec {
 				#jack1
 				arj # ARJ open source implementation
 				bat # Better cat
+				bear
 				brightnessctl
 				busybox # Various bits
 				cava # Cool audio visualiser
@@ -152,16 +161,21 @@ in rec {
 				p7zip
 				parted
 				pfetch # mini neofetch
+				playerctl
 				pkg-config
-				rar
 				ripgrep # recursively search for files
 				rnix-lsp # LSP for Nix Expression Language
 				taskwarrior
+				texlive.combined.scheme-tetex
 				tlp # Battery management
+				touchegg
 				trash-cli # Recycle
+				wmctrl
 				xboxdrv # Xbox controller suppport
 				xdg-utils
-				xorg.libXcomposite
+				xlibsWrapper
+				#xorg.libX11.dev
+				#xorg.libXcomposite
 				xorg.xev
 				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
 				xorg.xmodmap
@@ -183,33 +197,34 @@ in rec {
 				#transmission-remote-gtk
 				agenda
 				appimage-run
+				arandr # GUI for monitors
 				arduino
-				artha
-				barrier
-				blender
+				artha # Thesaurus
+				barrier # For multiple devices
+				blender # 3d modelling
 				brave
-				conky
+				conky # Desktop widget things
 				colorpicker
-				deluge
+				deluge # Torrenting
 				discord
+				#doom-emacs
 				dmenu
 				dolphin
-				dragon-drop
 				emacs
 				epiphany
 				etcher
+				eww
 				feh
 				firefox
 				flameshot
 				fstl # Simple STL viewer
 				gimp
-				gnome.networkmanagerapplet
 				gnome3.adwaita-icon-theme
 				gpick
 				guake
 				hicolor-icon-theme
 				inkscape
-				jetbrainsOverride.idea-community
+				jetbrains.idea-community
 				klavaro
 				libappindicator-gtk3
 				libnotify
@@ -230,6 +245,7 @@ in rec {
 				mono
 				mpv
 				mupdf
+				networkmanagerapplet
 				obconf
 				oneko
 				pamixer
@@ -238,8 +254,11 @@ in rec {
 				pcmanfm
 				picom
 				plasma5Packages.kdenlive
+				polymc
 				postman
+				qalculate-gtk
 				rofi
+				rofi-emoji
 				rpcs3
 				skippy-xd
 				spotify
@@ -248,19 +267,28 @@ in rec {
 				teams
 				thunderbird
 				tint2
+				trayer
 				tor
 				ungoogled-chromium
+				#virtualbox
 				webcamoid
 				weka
-				wineStaging
+				wine-staging
 				wineWowPackages.stable
 				winetricks
 				worker
+				write_stylus
 				xarchiver # archiver frontend
+				xdotool
+				xdragon
+				xfce.ristretto
 				xfce.thunar
+				xfce.tumbler
 				xob
 				xob
 				xorg.xbacklight
+				xournal
+				xournalpp
 				zoom-us
 			] ++ (if isPi then [
 			] else [
@@ -272,8 +300,8 @@ in rec {
 				gnumake
 				cmake
 
-				gcc10
-				#clang_11
+				gcc
+				#clang
 				#clang-tools
 				#flex
 				#bison
@@ -292,7 +320,7 @@ in rec {
 				maven
 				jdk11
 				openjfx15
-				postgresql_jdbc
+				#postgresql_jdbc
 				#scenebuilder
 				#java-language-server
 
@@ -311,6 +339,9 @@ in rec {
 				leiningen
 
 				gprolog
+
+				valgrind
+				cargo-valgrind
 
 			];
 
@@ -331,6 +362,7 @@ in rec {
 				#pycodestyle
 				#msgpack
 				#python-lsp-server
+				tkinter
 			];
 			haskellPackages = with pkgs; with pkgs.haskellPackages; [
 				cabal2nix
@@ -367,7 +399,6 @@ in rec {
 
 				#flypie
 
-				touchegg
 			];
 #			swayPackages = with pkgs; [
 #				swayidle # Customise idle behaviour
@@ -397,7 +428,7 @@ in rec {
 		++ haskellPackages
 		++ lispPackages
 #		++ swayPackages
-		++ gnomePackages
+#		++ gnomePackages
 		++ [(python39.withPackages pythonPackages)]
 	;
 
@@ -423,7 +454,7 @@ in rec {
 			"image/png" = "sxiv.desktop";
 			"inode/directory" = "thunar.desktop";
 			"text/html" = "firefox.desktop";
-			"text/markdown" = "nvim.desktop";
+			"text/*" = "emacs.desktop";
 			"video/mp4" = "mpv.desktop";
 
 			"x-scheme-handler/etcher" = "balena-etcher-electron.desktop";
@@ -437,17 +468,9 @@ in rec {
 
 		}; # Check ~/.config/mimeapps.list for collisions
 	};
-  home.file.".emacs.d" = {
-    # don't make the directory read only so that impure melpa can still happen
-    # for now
-    recursive = true;
-    source = pkgs.fetchFromGitHub {
-      owner = "syl20bnr";
-      repo = "spacemacs";
-      rev = "26b8fe0c317915b622825877eb5e5bdae88fb2b2";
-      sha256 = "00cfm6caaz85rwlrbs8rm2878wgnph6342i9688w4dji3dgyz3rz";
-    };
-  };
+	home.file.".emacs.d/init.el".text = ''
+		(load "default.el")
+	'';
 #	home.file."nixos/home-manager/config/sway/scripts/job.yaml".text = ''
 #- JOB: ${pkgs.interception-tools}/bin/intercept -g $DEVNODE | /home/alexs/apps/caps2esc-master/build/caps2esc| ${pkgs.interception-tools}/bin/uinput -d $DEVNODE
 #  DEVICE:
@@ -469,5 +492,5 @@ in rec {
 #		};
 #	};
 
-	home.stateVersion = "21.11";
+	home.stateVersion = "22.05";
 }

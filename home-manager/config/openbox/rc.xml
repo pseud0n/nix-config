@@ -154,7 +154,7 @@
      cases. -->
   <margins>
     <top>0</top>
-    <bottom>25</bottom>
+    <bottom>0</bottom>
     <left>0</left>
     <right>0</right>
   </margins>
@@ -179,114 +179,114 @@
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
     <!-- Keybindings for desktop switching -->
-    <keybind key="C-A-Left">
+    <keybind key="C-W-Left">
       <action name="GoToDesktop">
         <to>left</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-h">
+    <keybind key="C-W-h">
       <action name="GoToDesktop">
         <to>left</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-Right">
+    <keybind key="C-W-Right">
       <action name="GoToDesktop">
         <to>right</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-l">
+    <keybind key="C-W-l">
       <action name="GoToDesktop">
         <to>right</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-Left">
+    <keybind key="S-W-Left">
       <action name="SendToDesktop">
         <to>left</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-h">
+    <keybind key="S-W-h">
       <action name="SendToDesktop">
         <to>left</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-Right">
+    <keybind key="S-W-Right">
       <action name="SendToDesktop">
         <to>right</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-l">
+    <keybind key="S-W-l">
       <action name="SendToDesktop">
         <to>right</to>
         <wrap>yes</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-1">
+    <keybind key="S-W-1">
       <action name="SendToDesktop">
         <to>1</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-2">
+    <keybind key="S-W-2">
       <action name="SendToDesktop">
         <to>2</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-3">
+    <keybind key="S-W-3">
       <action name="SendToDesktop">
         <to>3</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="S-A-4">
+    <keybind key="S-W-4">
       <action name="SendToDesktop">
         <to>4</to>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="A-1">
+    <keybind key="W-1">
       <action name="GoToDesktop">
         <to>1</to>
       </action>
     </keybind>
-    <keybind key="A-2">
+    <keybind key="W-2">
       <action name="GoToDesktop">
         <to>2</to>
       </action>
     </keybind>
-    <keybind key="A-3">
+    <keybind key="W-3">
       <action name="GoToDesktop">
         <to>3</to>
       </action>
     </keybind>
-    <keybind key="A-4">
+    <keybind key="W-4">
       <action name="GoToDesktop">
         <to>4</to>
       </action>
     </keybind>
-    <keybind key="A-d">
+    <keybind key="W-d">
       <action name="ToggleShowDesktop"/>
     </keybind>
     <!-- Keybindings for windows -->
-    <keybind key="A-F4">
+    <keybind key="W-F4">
       <action name="Close"/>
     </keybind>
-    <keybind key="A-q">
+    <keybind key="W-q">
       <action name="Close"/>
     </keybind>
-    <keybind key="A-Escape">
+    <keybind key="W-Escape">
       <action name="Lower"/>
       <action name="FocusToBottom"/>
       <action name="Unfocus"/>
     </keybind>
-    <keybind key="A-space">
+    <keybind key="W-space">
       <action name="ShowMenu">
         <menu>client-menu</menu>
       </action>
@@ -323,51 +323,51 @@
     </keybind>
     <!-- Keybindings for window switching with the arrow keys -->
 	<!--
-    <keybind key="A-Right">
+    <keybind key="W-Right">
       <action name="DirectionalCycleWindows">
         <direction>right</direction>
       </action>
     </keybind>
 	-->
-    <keybind key="A-l">
+    <keybind key="W-l">
       <action name="DirectionalCycleWindows">
         <direction>right</direction>
       </action>
     </keybind>
 	<!--
-    <keybind key="A-Left">
+    <keybind key="W-Left">
       <action name="DirectionalCycleWindows">
         <direction>left</direction>
       </action>
     </keybind>
 	-->
-    <keybind key="A-h">
+    <keybind key="W-h">
       <action name="DirectionalCycleWindows">
         <direction>left</direction>
       </action>
     </keybind>
-    <keybind key="A-Up">
+    <keybind key="W-Up">
       <action name="DirectionalCycleWindows">
         <direction>up</direction>
       </action>
     </keybind>
-    <keybind key="A-k">
+    <keybind key="W-k">
       <action name="DirectionalCycleWindows">
         <direction>up</direction>
       </action>
     </keybind>
-    <keybind key="A-Down">
+    <keybind key="W-Down">
       <action name="DirectionalCycleWindows">
         <direction>down</direction>
       </action>
     </keybind>
-    <keybind key="A-j">
+    <keybind key="W-j">
       <action name="DirectionalCycleWindows">
         <direction>down</direction>
       </action>
     </keybind>
     <!-- Keybindings for running applications -->
-    <keybind key="A-e">
+    <keybind key="W-e">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
@@ -377,7 +377,7 @@
       </action>
     </keybind>
 
-	<keybind key="C-A-t">
+	<keybind key="C-W-t">
 	  <action name="Execute">
 	    <command>alacritty</command>
 	  </action>
@@ -412,13 +412,13 @@
 		<command>~/nixos/home-manager/config/openbox/scripts/x-toggle-mute.bash</command>
 	  </action>
 	</keybind>
-    <keybind key="A-f">
+    <keybind key="W-f">
 		<action name="ToggleMaximizeFull"/>
     </keybind>
-    <keybind key="A-t">
+    <keybind key="W-t">
 		<action name="ToggleDecorations"/>
     </keybind>
-	<keybind key="A-r">
+	<keybind key="W-r">
 	  <action name="Execute">
 	    <name>dmenu</name>
 	    <command>rofi -show drun -font "Hack Nerd Font 18" -terminal alacritty</command>
@@ -434,9 +434,14 @@
 	    <command>flameshot gui</command>
 	  </action>
 	</keybind>
-	<keybind key="A-Tab">
+	<keybind key="W-w">
 	  <action name="Execute">
 	    <command>skippy-xd</command>
+	  </action>
+	</keybind>
+	<keybind key="W-S-w">
+	  <action name="Execute">
+      <command>skippy-xd --config ~/nixos/home-manager/config/openbox/skippy-xd.rc</command>
 	  </action>
 	</keybind>
   </keyboard>
@@ -453,58 +458,58 @@
     <!-- Set this to TRUE to move the mouse pointer across the desktop when
        switching due to hitting the edge of the screen -->
     <context name="Frame">
-      <mousebind button="A-Left" action="Press">
+      <mousebind button="W-Left" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
       </mousebind>
-      <mousebind button="A-Left" action="Click">
+      <mousebind button="W-Left" action="Click">
         <action name="Unshade"/>
       </mousebind>
-      <mousebind button="A-Left" action="Drag">
+      <mousebind button="W-Left" action="Drag">
         <action name="Move"/>
       </mousebind>
-      <mousebind button="A-S-Left" action="Drag">
+      <mousebind button="W-S-Left" action="Drag">
         <action name="Resize"/>
       </mousebind>
-      <mousebind button="A-Right" action="Press">
+      <mousebind button="W-Right" action="Press">
         <action name="Focus"/>
         <action name="Raise"/>
         <action name="Unshade"/>
       </mousebind>
-      <mousebind button="A-Right" action="Drag">
+      <mousebind button="W-Right" action="Drag">
         <action name="Resize"/>
       </mousebind>
-      <mousebind button="A-Middle" action="Press">
+      <mousebind button="W-Middle" action="Press">
         <action name="Lower"/>
         <action name="FocusToBottom"/>
         <action name="Unfocus"/>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
+      <mousebind button="W-Up" action="Click">
         <action name="GoToDesktop">
           <to>previous</to>
         </action>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
+      <mousebind button="W-Down" action="Click">
         <action name="GoToDesktop">
           <to>next</to>
         </action>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
+      <mousebind button="W-Up" action="Click">
         <action name="GoToDesktop">
           <to>previous</to>
         </action>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
+      <mousebind button="W-Down" action="Click">
         <action name="GoToDesktop">
           <to>next</to>
         </action>
       </mousebind>
-      <mousebind button="A-S-Up" action="Click">
+      <mousebind button="W-S-Up" action="Click">
         <action name="SendToDesktop">
           <to>previous</to>
         </action>
       </mousebind>
-      <mousebind button="A-S-Down" action="Click">
+      <mousebind button="W-S-Down" action="Click">
         <action name="SendToDesktop">
           <to>next</to>
         </action>
@@ -712,21 +717,21 @@
           <to>next</to>
         </action>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
+      <mousebind button="W-Up" action="Click">
         <action name="GoToDesktop">
           <to>previous</to>
         </action>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
+      <mousebind button="W-Down" action="Click">
         <action name="GoToDesktop">
           <to>next</to>
         </action>
-      <mousebind button="C-A-Up" action="Click">
+      <mousebind button="C-W-Up" action="Click">
         <action name="GoToDesktop">
           <to>previous</to>
         </action>
       </mousebind>
-      <mousebind button="C-A-Down" action="Click">
+      <mousebind button="C-W-Down" action="Click">
         <action name="GoToDesktop">
           <to>next</to>
         </action>
@@ -765,12 +770,12 @@
           <to>next</to>
         </action>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
+      <mousebind button="W-Up" action="Click">
         <action name="GoToDesktop">
           <to>previous</to>
         </action>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
+      <mousebind button="W-Down" action="Click">
         <action name="GoToDesktop">
           <to>next</to>
         </action>
@@ -803,6 +808,12 @@
     <!-- show the manage desktops section in the client-list-(combined-)menu -->
   </menu>
   <applications>
+    <application class="trayer">
+      <layer>above</layer>
+    </application>
+    <application class="eww-bar">
+      <layer>below</layer>
+    </application>
     <!--
   # this is an example with comments through out. use these to make your
   # own rules, but without the comments of course.

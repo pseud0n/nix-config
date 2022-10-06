@@ -6,4 +6,4 @@ To use, install NixOS: https://nixos.org/manual/nixos/stable/index.html#sec-obta
 To avoid `sudo` issues, I put my config in `~/nixos` and then did `ln -s ~/nixos /etc/nixos`
 After, clone this repo & generate `hardware-configuration.nix` using `nixos-generate-config`.
 Inside `configuration.nix`, there is specific configuration for Broadcom wifi, which can be deleted without problem.
-# Configuration of laptop & Pi 4 usin NixOS & Home Manager
+# Configuration of laptop & Pi 4 using NixOS & Home Manager

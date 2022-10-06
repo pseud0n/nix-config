@@ -1,6 +1,6 @@
 # nixos-config
 Current configuration for x86_64 computer running Home Manager & NixOS 21.05 with dual boot.
-This uses Wayland Sway.
+This uses Openbox.
 
 To use, install NixOS: https://nixos.org/manual/nixos/stable/index.html#sec-obtaining
 To avoid `sudo` issues, I put my config in `~/nixos` and then did `ln -s ~/nixos /etc/nixos`

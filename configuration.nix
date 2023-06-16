@@ -6,7 +6,7 @@
 # https://nixos.org/channels/nixos-unstable unstable
 # https://channels.nixos.org/nixos-21.05 nixos
 
-{ config, lib, pkgs, ... }:
+args @ { config, lib, pkgs, ... }:
 
 let
 	#unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
@@ -24,12 +24,13 @@ in {
 		] ++ (if isPi then [
 			"${builtins.fetchTarball https://github.com/NixOS/nixos-hardware/archive/refs/tags/mnt-reform2-nitrogen8m-v1.tar.gz}/raspberry-pi/4"
 			#"${builtins.fetchTarball https://github.com/NixOS/nixos-hardware/archive/936e4649098d6a5e0762058cb7687be1b2d90550.tar.gz}/raspberry-pi/4"
-			./pi.nix
+			#./pi.nix
 		] else [
 			./laptop.nix
 		]);
 
 	nixpkgs.config.allowUnfree = true; # proprietary drivers
+	nixpkgs.config.unsupportedSystem = true; # proprietary drivers
 #	nixpkgs.config.permittedInsecurePackages = [
 #		"libsixel-1.8.6"
 #	];
@@ -57,7 +58,7 @@ in {
 			wifi.scanRandMacAddress = false;
 		};
 		useDHCP = false;
-		interfaces.eno1.useDHCP = true;
+		interfaces.eno1.useDHCP = false;
 		hostName = "nixos";
 		#enableB43Firmware = true;
 	};
@@ -79,20 +80,29 @@ in {
 		keyMap = "uk";
 	};
 
-	xdg.portal.enable = true;
+	#xdg.portal.enable = true;
+	#xdg.portal.lxqt.enable = true;
 	systemd.services.upower.enable = true;
 
 	#programs.xwayland.enable = true;
 	programs.java.enable = true;
 	virtualisation = {
-		docker.enable = true;
-		virtualbox.host = {
-			enable = true;
-			enableExtensionPack = true;
+		docker.enable = false;
+		virtualbox = {
+			host = {
+				enable = true;
+				enableExtensionPack = true;
+			};
+			guest = {
+				enable = true;
+				x11 = true;
+			};
 		};
 	};
 	services = {
-
+		openssh.enable = true;
+		gvfs.enable = false;
+		pcscd.enable = true;
 		#udev.extraHwdb = # Bus 001 Device 008: ID 0c45:760b Microdia USB Keyboard
 		#''
 		#evdev:input:b0003v0C45p760B*
@@ -101,15 +111,19 @@ in {
 
 		udev.packages = with pkgs; [
 			numworks-udev-rules
+			qmk-udev-rules
+			android-udev-rules
 		];
 
-		flatpak.enable = true;
+		#flatpak.enable = true;
 	 	gnome.gnome-keyring.enable = true;
 		touchegg.enable = true;
 	 	upower.enable = true;
 		tor.enable = true;
+		connman.enable = false;
+		#tlp.enable = true;
 		mongodb = {
-			enable = true;
+			enable = false;
 			dbpath = "${home}/data/db";
 			user = "alexs";
 		};
@@ -117,6 +131,9 @@ in {
 			enable = true;
 			libinput.enable = true;
 			desktopManager = {
+				#gnome.enable = true;
+				#enlightenment.enable = false;
+				#plasma5.enable = false;
 			};
 			#videoDrivers = with pkgs; [
 			#	driversi686Linux.mesa
@@ -125,12 +142,20 @@ in {
 				openbox.enable = true;
 			};
 			displayManager = {
+				autoLogin.enable = false;
+				autoLogin.user = "alexs";
 				defaultSession = "none+openbox";
-				lightdm.enable = true;
+				#defaultSession = "none";
+				#startx.enable = true;
+				#sddm.enable = true;
+				#lightdm = {
+				#	enable = false;
+				#};
 				gdm = {
-					enable = false;
-					wayland = false;
+					enable = true;
+					#wayland = false;
 				};
+				/*
 				lightdm.greeters.mini = {
 					enable = true;
 					user = user;
@@ -156,12 +181,13 @@ in {
 						suspend-key = u
 					'';
 				};
+				*/
 			};
 			layout = "gb";
 		};
 		postgresql = {
 			enable = true;
-			package = pkgs.postgresql_14;
+			package = pkgs.postgresql_15;
 			authentication = lib.mkForce ''
 				# Generated file; do not edit!
 				# TYPE  DATABASE        USER            ADDRESS                 METHOD
@@ -173,7 +199,12 @@ in {
 	};
 
 	environment = {
-		variables = {
+#		etc."wpa_supplicant.conf".text = lib.mkIf
+#			config.services.connman.enable
+#			''
+#			# Dummy config file. Connman uses wpa_supplicant directly.
+#	'';
+	variables = {
 		};
 		#gnome.excludePackages = with pkgs.gnome; [ cheese gnome-photos gnome-music gnome-terminal gedit epiphany evince gnome-characters totem tali iagno hitori atomix geary ];
 	};
@@ -183,6 +214,12 @@ in {
 #		enable = true;
 #		wrapperFeatures.gtk = true;
 #	};
+
+	programs.gnupg.agent = {
+	   enable = true;
+	   pinentryFlavor = "curses";
+	   enableSSHSupport = true;
+	};
 
 	sound.enable = true;
 	hardware = {
@@ -201,6 +238,7 @@ in {
 			};
 		};
 	};
+	
 	services.blueman.enable = true; # If no GUI available
 
 	programs.fish.enable = true;
@@ -214,13 +252,18 @@ in {
 	#	extraConfig = "permit :wheel";
 	#};
 
-	home-manager.users."${user}" = import ./home-manager/home.nix; 
+	security = {
+		polkit.enable = true;
+	};
+
+	home-manager.users."${user}" = import ./home-manager/home.nix;
 	users = {
 		users."${user}" = {
 			shell = pkgs.fish;
 			home = home;
 			isNormalUser = true;
-			extraGroups = [ "wheel" "video" "networkmanager" "dialout" "docker" "bluetooth" "vboxusers" ]; # Enable ‘sudo’ for the user.
+			extraGroups = [ "input" "wheel" "video" "networkmanager" "dialout" "docker" "bluetooth" "vboxusers" "plugdev" "wireshark" ]; # Enable ‘sudo’ for the user.
+			#extraGroups = ["wheel"];
 		};
 	   extraGroups.vboxusers.members = [ user ];
 	};
@@ -244,12 +287,15 @@ in {
 	# $ nix search wget
 	environment.systemPackages = with pkgs; [
 		# The essentials
+		b43FirmwareCutter
+
 		nano
 		vim
 		neovim
 		leafpad
 
-		epiphany
+		#epiphany
+		firefox
 
 		git
 
@@ -274,6 +320,7 @@ in {
 		bluez-alsa
 
 		xorg.libX11
+
 	];
 
 #	system.activationScripts = {
@@ -292,22 +339,29 @@ in {
 	# Some programs need SUID wrappers, can be configured further or are
 	# started in user sessions.
 	# programs.mtr.enable = true;
-	# programs.gnupg.agent = {
-	#	 enable = true;
-	#	 enableSSHSupport = true;
-	# };
+	#programs.gnupg.agent = {
+	#   enable = true;
+	#   enableSSHSupport = true;
+	#};
 
 	# List services that you want to enable:
 
 	# Enable the OpenSSH daemon.
-	services.openssh.enable = true;
 
 	# Open ports in the firewall.
 	# networking.firewall.allowedTCPPorts = [ ... ];
 	# networking.firewall.allowedUDPPorts = [ ... ];
 	# Or disable the firewall altogether.
-	networking.firewall.enable = false;
-
+	#networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      { from = 1714; to = 1764; } # KDE Connect
+    ];
+    allowedUDPPortRanges = [
+      { from = 1714; to = 1764; } # KDE Connect
+    ];
+  };
 
 	# This value determines the NixOS release from which the default
 	# settings for stateful data, like file locations and database versions
@@ -315,7 +369,28 @@ in {
 	# this value at the release version of the first install of this system.
 	# Before changing this value read the documentation for this option
 	# (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-	system.stateVersion = "22.05"; # Did you read the comment? No.
+	system.stateVersion = "22.11"; # Did you read the comment? No.
 
-}
 
+
+	#networking.hostName = "nixos";
+	#networking.hostId = "caf3f00d";
+
+	#hardware.enableAllFirmware = true;
+
+#} // {
+#	boot.extraModulePackages = [
+#		config.boot.kernelPackages.broadcom_sta
+#		#config.boot.kernelPackages.acpi_call
+#	];
+#	boot.kernelModules = [ "wl" ]; # set of kernel modules loaded in second stage of boot process
+#	#boot.initrd.kernelModules = [ "kvm-intel" "wl" ]; # list of modules always loaded by the initrd (initial ramdisk)
+#
+#  	boot.initrd.supportedFilesystems = [ "zfs" ];
+#  	boot.supportedFilesystems = [ "zfs" ];
+#  	boot.zfs.enableUnstable = true;
+#  	services.zfs.autoScrub.enable = true;
+#
+#  	networking.hostId = "caf3f00d";
+
+} #// (import (if isPi then ./pi.nix else ./laptop.nix) args)

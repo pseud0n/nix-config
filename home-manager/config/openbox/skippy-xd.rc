@@ -1,0 +1,21 @@
+[general]
+distance = 100
+useNetWMFullscreen = true
+ignoreSkipTaskbar = true
+updateFreq = 60.0
+lazyTrans = false
+pipePath = /tmp/skippy-xd-fifo
+movePointerOnStart = false
+movePointerOnSelect = false
+movePointerOnRaise = false
+switchDesktopOnActivate = true
+useNameWindowPixmap = false
+forceNameWindowPixmap = false
+includeFrame = true
+allowUpscale = false
+showAllDesktops = true
+showUnmapped = true
+preferredIconSize = 64
+clientDisplayModes = thumbnail icon fill none
+iconFillSpec = orig mid mid #555555
+fillSpec = orig mid mid #000000

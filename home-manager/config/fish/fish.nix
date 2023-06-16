@@ -8,7 +8,15 @@ with import <nixpkgs> {};
 	'';
 	programs.fish = {
 		enable = true;
+
 		shellInit = builtins.readFile ./icons.fish;
+    interactiveShellInit = ''
+      set fish_greeting # Disable greeting
+    '';
+    plugins = with pkgs.fishPlugins; [
+      { name = "tide"; src = pkgs.fishPlugins.tide.src; }
+		];
+
 #		loginShellInit = ''
 #			if test (id --user $USER) -ge 1000 && test (tty) = "/dev/tty1"
 #				exec sway
@@ -24,6 +32,7 @@ with import <nixpkgs> {};
 			avg-core-temp = "cat /sys/class/thermal/thermal_zone*/temp | awk '{ sum += $1 } END { print sum / NR }'";
 			latest-lecture-folder = "alacritty --working-directory ~/vimwiki/lectures/(ls ~/vimwiki/lectures -t | head -n 1)";
 
+			"+x" = "chmod +x";
 			a = "alacritty";
 			ar = "xrandr --auto";
 			b = "bat";
@@ -38,16 +47,19 @@ with import <nixpkgs> {};
 			gc = "git clone https://github.com/";
 			k = "killall";
 			lb = "lsblk";
-			m = "man";
+			m = "mount";
 			md = "mkdir";
 			mf = "mkfifo";
 			n = "nvim";
 			ns = "nix-shell";
 			nsf = "nix-shell --run fish";
-			nc = "nix-channel";
+			nch = "nix-channel";
 			nsp = "nix-shell -p";
 			npg = "nix-prefetch-git";
 			nr = "nixos-rebuild";
+			nrs = "nixos-rebuild switch";
+			nrb = "nixos-rebuild boot";
+			nrt = "nixos-rebuild test";
 			p = "pkill";
 			pa = "xclip -sel clip -o";
 			r = "readlink";
@@ -58,14 +70,14 @@ with import <nixpkgs> {};
 			snrs = "sudo nixos-rebuild switch";
 			t = "trash";
 			to = "touch";
-			u = "udisksctl";
-			ui = "udisksctl info";
-			um = "udisksctl mount";
-			uu = "udisksctl unmount";
+			u = "umount";
 			w = "which";
-			x = "chmod +x";
+			x = "pkexec";
 			xo = "xdg-open";
 			xr = "xrandr";
+			xnrs = "pkexec nixos-rebuild switch";
+			xnrb = "pkexec nixos-rebuild boot";
+			xnrt = "pkexec nixos-rebuild test";
 		};
 		functions = {
 			project-new = {
@@ -103,10 +115,10 @@ with import <nixpkgs> {};
 					ls ${devDir}/.dump/projects
 				'';
 			};
-			__informative_git_prompt = {
-				description = "Provides git information";
-				body = builtins.readFile ./functions/__informative_git_prompt.fish;
-			};
+			#__informative_git_prompt = {
+			#	description = "Provides git information";
+			#	body = builtins.readFile ./functions/__informative_git_prompt.fish;
+			#};
 			del = {
 				description = "Safer deletion";
 				body = ''
@@ -148,18 +160,22 @@ with import <nixpkgs> {};
 				'';
 			};
 
-			gparted-run = {
-				description = "Run gparted";
-				body = ''
-					xhost +local:
-					gparted
-				'';
-			};
-			kdenlive-run = {
-				description = "Run kdenlive on Wayland";
-				body = ''
-					QT_QPA_PLATFORM=xcb kdenlive
-				'';
+			#gparted-run = {
+			#	description = "Run gparted";
+			#	body = ''
+			#		xhost +local:
+			#		gparted
+			#	'';
+			#};
+			#kdenlive-run = {
+			#	description = "Run kdenlive on Wayland";
+			#	body = ''
+			#		QT_QPA_PLATFORM=xcb kdenlive
+			#	'';
+			#};
+			nspf = {
+				description = "nix-shell -p ... --run fish";
+				body = "nix-shell --run fish -I \"nixpkgs=$HOME/nixpkgs\" -p $argv";
 			};
 		};
 	};

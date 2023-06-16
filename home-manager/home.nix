@@ -27,7 +27,7 @@ let
 	defaultBackground = gruvboxTheme.bg;
 	addAlpha = hex: "${defaultBackground}${hex}";
 	defaultBackgroundAlpha = addAlpha "FF";
-	defaultTerminal = "alacritty";
+	defaultTerminal = "terminator";
 	devDir = "$HOME/dev";
 
 	readConfig = path: builtins.readFile (homeConfigDir + path);
@@ -44,7 +44,12 @@ let
 		libdbusmenu;
 		jdk = jdk11;
 	};
-
+	burpsuiteOverride = import ./pins/burpsuite.nix {
+		inherit fetchurl lib stdenv runtimeShell chromium jdk11 unzip;
+	};
+	nix-alien-pkgs = import (
+		fetchTarball "https://github.com/thiagokokada/nix-alien/tarball/master"
+	  ) { };
 	doom-emacs = pkgs.callPackage (builtins.fetchTarball {
 		url = https://github.com/vlaci/nix-doom-emacs/archive/master.tar.gz;
 	}) {
@@ -79,10 +84,12 @@ in rec {
 		config = {
 			services.tumbler.enable = true;
 			programs.home-manager.enable = true;
+			programs.wireshark.enable = true;
 			allowUnfree = true;
 			allowBroken = false;
 			permittedInsecurePackages = [
 				"electron-12.2.3"
+				#"polymc-1.2.2"
 			];
 		};
 		overlays = [
@@ -93,14 +100,17 @@ in rec {
 	imports = [
 		(import config/fish/fish.nix { inherit devDir homeConfigDir; })
 		config/neovim/neovim.nix
-		config/git/git.nix
-		config/alacritty/alacritty.nix
-		config/openbox/openbox.nix
-		config/lf/lf.nix
+		#config/git/git.nix
+		#config/alacritty/alacritty.nix
+		#config/openbox/openbox.nix
+		#config/lf/lf.nix
+		#config/conky/conky.nix
+		#config/eww/eww.nix
 		#config/sway/sway.nix
 		#config/waybar/waybar.nix
 		#(import config/foot/foot.nix { inherit gruvboxTheme; })
 		#(import config/mako/mako.nix { inherit pangoFont gruvboxTheme; })
+		#<nix-ld/modules/nix-ld.nix>
 	];
 	home.username = "alexs";
 	home.homeDirectory = nixosConfig.users.users.alexs.home;
@@ -115,7 +125,7 @@ in rec {
 		#GTK_THEME = "Adwaita:dark";
 		DEV_DIR = devDir;
 		HOME_MANAGER_DIR = homeConfigDir;
-		EDITOR = "nvim";
+		EDITOR = "emacs";
 	};
 
 	services = {
@@ -124,6 +134,15 @@ in rec {
 			enable = true;
 			#package = doom-emacs;
 		};
+    kdeconnect = {
+      enable = true;
+      indicator = true;
+    };
+    redshift = {
+      enable = true;
+      longitude = 50.0;
+      latitude = 0.0;
+    };
 	};
 
 	home.packages =
@@ -136,50 +155,86 @@ in rec {
 #				}) {})
 				#jack1
 				arj # ARJ open source implementation
-				bat # Better cat
+        arp-scan
+				aspell
+				at-spi2-core
+				#avrlibc
+				#avrlibcCross
+				bat # better cat
+        batsignal # battery
+				bc # maths in shell
 				bear
 				brightnessctl
-				busybox # Various bits
-				cava # Cool audio visualiser
+				#busybox # Various bits
+				cava # cool audio visualiser
+				comma
+        coreutils-prefixed
 				dcfldd
+				dmidecode
+				dos2unix
 				fd # 'find' alternative
-				flatpak # Run programs in isolated env with deps managed
+				file # file info
+				flatpak # run programs in isolated env with deps managed
+				ffmpeg # video/audio editing
+				fzy
 				gettext # msgmerge
+				ghostscript
+				glib
 				glib-networking
-				hexyl # View hex files
-				htop # View tasks
-				imagemagick
-				jmtpfs
-				jq
-				lf
+				gnupg
+				graphviz
+				hexyl # view hex files
+				htop # view tasks
+				httrack # download websites
+				id3v2 # music tagging
+				imagemagick # image editing, functions
+				jgmenu # customisable menu
+				jmtpfs # media transfer protoocl file system
+				jq # JSON
+				killall # kill processes
+				lame # audio codec
+				lf # file manager
 				lhasa # lha free implementation
-				libinput
+				libinput # mouse input
 				libxkbcommon
-				lsd # Better ls
+				lsd # better ls
+        mlocate
 				neofetch # show cool logo and useless info
+        #netcat-gnu
+				#nix-alien-packages.nix-alien
+				#nix-alien-packages.nix-index-update
+				nix-index
 				nix-prefetch-git # Find info about repo for Nix
-				p7zip
-				parted
+				p7zip # .7z archives
+				parted # manage partitions
+				pass # password manager
+				pinentry-curses # enter password for pass
 				pfetch # mini neofetch
-				playerctl
+				playerctl # media keys and watch media
 				pkg-config
+        power-profiles-daemon
+				#protonmail-bridge
 				ripgrep # recursively search for files
+				redshift # screen colour
 				rnix-lsp # LSP for Nix Expression Language
-				taskwarrior
+				taskwarrior # organise tasks
 				texlive.combined.scheme-tetex
 				tlp # Battery management
-				touchegg
+				touchegg # touchpad
 				trash-cli # Recycle
-				wmctrl
+				udisks # mounting
+				wmctrl # window manager functions
 				xboxdrv # Xbox controller suppport
 				xdg-utils
-				xlibsWrapper
+				#xlibsWrapper
 				#xorg.libX11.dev
 				#xorg.libXcomposite
-				xorg.xev
+				xorg.xev # track key events, mouse movement
 				xorg.xhost # For running GParted (cannot open display :0), see gparted-run
-				xorg.xmodmap
-				zip
+				xorg.xinit
+				xorg.xmodmap # keyboard
+        zfs # interact with ZFS
+				zip # archives
 			];
 
 			guiMiscPackages = with pkgs; [
@@ -195,45 +250,69 @@ in rec {
 				#qemu
 				#steam-tui
 				#transmission-remote-gtk
-				agenda
-				appimage-run
+				agenda # list tasks
+				appimage-run # run appimage
 				arandr # GUI for monitors
-				arduino
-				artha # Thesaurus
-				barrier # For multiple devices
+				arduino # microcontroller tools
+				artha # thesaurus
+				audacious # music player
+				audacity # audio editing
+				barrier # for multiple devices
 				blender # 3d modelling
-				brave
-				conky # Desktop widget things
-				colorpicker
-				deluge # Torrenting
-				discord
+				#brave
+				burpsuiteOverride
+				chromium
+				clementine # music player
+				colorpicker # pick colours
+				conky # desktop widget things
+				connman # connection manager
+				connman-gtk
+				connman-ncurses
+				connman-notify
+				cpu-x # show CPU info + more
+				deluge # torrenting
+				discord # chat/social app
 				#doom-emacs
-				dmenu
-				dolphin
-				emacs
-				epiphany
-				etcher
-				eww
-				feh
-				firefox
-				flameshot
-				fstl # Simple STL viewer
-				gimp
+				dmenu # menu for options
+				#dolphin
+				dunst
+				emacs # text editor and much more
+				emote # emoji selet
+				#epiphany # simple web browser
+				etcher # flashing tool
+				eww # bars and widgets
+        fabric-installer
+				feh # display image, set background
+				#firefox-esr
+				flameshot # taks screenshots
+				freecad # 3d modelling/CAD/part design
+				fstl # simple STL viewer
+				ghidra
+				gimp # image editro
 				gnome3.adwaita-icon-theme
 				gpick
+				gsimplecal
 				guake
+				guvcview
+				gxkb
+				hashcat
 				hicolor-icon-theme
 				inkscape
 				jetbrains.idea-community
-				klavaro
+				john # password cracking
+				klavaro # typing tutor
+				kphotoalbum
 				libappindicator-gtk3
 				libnotify
 				libreoffice
+				#librewolf
 				libsForQt5.kdeconnect-kde
 				libsForQt5.kompare
 				lutris
 				lxappearance
+				polkit_gnome
 				lxqt.lxqt-notificationd
+				lxqt.lxqt-powermanagement
 				lxqt.lxqt-qtplugin
 				lxqt.lxqt-runner
 				lxqt.pavucontrol-qt
@@ -246,49 +325,74 @@ in rec {
 				mpv
 				mupdf
 				networkmanagerapplet
+				numix-gtk-theme
+				numix-icon-theme
+				numix-cursor-theme
 				obconf
+				obs-studio
 				oneko
+				onboard
 				pamixer
 				parcellite
 				pavucontrol
-				pcmanfm
+				#pcmanfm
 				picom
 				plasma5Packages.kdenlive
-				polymc
+				#polymc
 				postman
+				prismlauncher
 				qalculate-gtk
+				qtpass
 				rofi
 				rofi-emoji
 				rpcs3
+				selectdefaultapplication
+				scilab-bin
 				skippy-xd
 				spotify
 				steam
+				strawberry
 				sxiv
+				tdesktop # Telegram
 				teams
+				terminator
+				texmacs
 				thunderbird
 				tint2
 				trayer
 				tor
-				ungoogled-chromium
+				tor-browser-bundle-bin
+        uget
+				#ungoogled-chromium
 				#virtualbox
+				v4l-utils
+				viewnior
+				vivaldi
+				vlc
+        vokoscreen
+				volumeicon
 				webcamoid
 				weka
 				wine-staging
 				wineWowPackages.stable
 				winetricks
+        wireshark
 				worker
-				write_stylus
+				#write_stylus
 				xarchiver # archiver frontend
 				xdotool
 				xdragon
-				xfce.ristretto
+				#xfce.ristretto
 				xfce.thunar
-				xfce.tumbler
+				#xfce.tumbler
 				xob
-				xob
+				xorg.xauth
 				xorg.xbacklight
 				xournal
 				xournalpp
+				xscreensaver
+				xterm
+				youtube-dl
 				zoom-us
 			] ++ (if isPi then [
 			] else [
@@ -296,10 +400,25 @@ in rec {
 
 			pythonVersion = "python39";
 
+			androidPackages = with pkgs; [
+        adbfs-rootless
+        android-file-transfer
+				android-tools
+				libmtp
+				mtpfs
+				jmtpfs
+			];
+
+      emacsPackages = with pkgs.emacsPackages; [
+        captain
+        editorconfig
+      ];
+
 			programmingPackages = with pkgs; [
+				nixfmt
 				gnumake
 				cmake
-
+				sqlite
 				gcc
 				#clang
 				#clang-tools
@@ -319,8 +438,9 @@ in rec {
 				gradle
 				maven
 				jdk11
-				openjfx15
+				openjfx17
 				#postgresql_jdbc
+				#postgresql
 				#scenebuilder
 				#java-language-server
 
@@ -330,11 +450,12 @@ in rec {
 
 				nodejs
 				nodePackages.nodemon
+				yarn
 
 				#lean
 
 				#mongodb-4_2
-				mongodb
+				#mongodb
 
 				leiningen
 
@@ -342,11 +463,20 @@ in rec {
 
 				valgrind
 				cargo-valgrind
+				glslang
+				shellcheck
+				clj-kondo
+				jsbeautifier
+				html-tidy
+
+		#bootloadhid
+        qmk
 
 			];
 
 			lispPackages = with pkgs; with pkgs.lispPackages; [
 				clisp
+				sbcl
 			];
 
 			#pythonPackages = with pkgs."${pythonVersion}Packages"; [
@@ -363,6 +493,7 @@ in rec {
 				#msgpack
 				#python-lsp-server
 				tkinter
+				pythonefl
 			];
 			haskellPackages = with pkgs; with pkgs.haskellPackages; [
 				cabal2nix
@@ -374,6 +505,16 @@ in rec {
 				ghcid
 				vector
                 #ghc-vis
+			];
+			enlightenmentPackages = with pkgs.enlightenment; [
+				#efl
+				#enlightenment
+				#econnman
+				terminology
+				#e17gtk
+				evisum
+				rage
+				#ecrire
 			];
 			gnomePackages = with pkgs; with pkgs.gnome; with pkgs.gnomeExtensions; [
 				gnome-tweaks
@@ -424,50 +565,58 @@ in rec {
 #			];
 		in cliMiscPackages
 		++ guiMiscPackages
+		++ emacsPackages
 		++ programmingPackages
+		++ androidPackages
 		++ haskellPackages
 		++ lispPackages
 #		++ swayPackages
 #		++ gnomePackages
+		++ enlightenmentPackages
 		++ [(python39.withPackages pythonPackages)]
 	;
 
 	programs.bat.enable = true;
+	#programs.nix-ld.enable = true;
 
 	#programs.dconf.enable = true;
 
 	#xdg.configFile."nvim/coc-settings.json".text = readConfig /nvim/coc-settings.json;
 
-	xdg.mimeApps = {
-		enable = true;
-		defaultApplications = {
-			"application/x-extension-htm" = "firefox.desktop";
-			"application/x-extension-html" = "firefox.desktop";
-			"application/x-extension-shtml" = "firefox.desktop";
-			"application/x-extension-xht" = "firefox.desktop";
-			"application/x-extension-xhtml" = "firefox.desktop";
-			"application/xhtml+xml" = "firefox.desktop";
-			"application/zip" = "userapp-unzip-9C58H1.desktop";
-			"image/gif" = "sxiv.desktop";
-			"image/jpeg" = "sxiv.desktop";
-			"image/pdf" = "firefox.desktop";
-			"image/png" = "sxiv.desktop";
-			"inode/directory" = "thunar.desktop";
-			"text/html" = "firefox.desktop";
-			"text/*" = "emacs.desktop";
-			"video/mp4" = "mpv.desktop";
-
-			"x-scheme-handler/etcher" = "balena-etcher-electron.desktop";
-			"x-scheme-handler/discord-424004941485572097" = "discord-424004941485572097.desktop";
-			"x-scheme-handler/http" = "firefox.desktop";
-			"x-scheme-handler/https" = "firefox.desktop";
-			"x-scheme-handler/mailto" = "thunderbird.desktop";
-			"x-scheme-handler/msteams" = "teams.desktop";
-			"x-scheme-handler/postman" = "Postman.desktop";
-
-
-		}; # Check ~/.config/mimeapps.list for collisions
-	};
+#	xdg.mimeApps = {
+#		enable = true;
+#		defaultApplications = {
+#			"application/x-extension-htm" = "vivaldi-stable.desktop";
+#			"application/x-extension-html" = "vivaldi-stable.desktop";
+#			"application/x-extension-shtml" = "vivaldi-stable.desktop";
+#			"application/x-extension-xht" = "vivaldi-stable.desktop";
+#			"application/x-extension-xhtml" = "vivaldi-stable.desktop";
+#			"application/xhtml+xml" = "vivaldi-stable.desktop";
+#			"application/zip" = "userapp-unzip-9C58H1.desktop";
+#			#"image/pdf" = "vivaldi.desktop";
+#			"image/*" = "sxiv.desktop";
+#			"audio/*" = "mpv.desktop";
+##			"image/jpeg" = "sxiv.desktop";
+##			"image/png" = "sxiv.desktop";
+#			"inode/directory" = "worker.desktop";
+#			#"text/html" = "vivaldi-stable.desktop";
+#			"text/*" = "emacs.desktop";
+#			"video/*" = "mpv.desktop";
+#
+#			"x-scheme-handler/etcher" = "balena-etcher-electron.desktop";
+#			"x-scheme-handler/discord-424004941485572097" = "discord-424004941485572097.desktop";
+#			"x-scheme-handler/http" = "vivaldi-stable.desktop";
+#			"x-scheme-handler/https" = "vivaldi-stable.desktop";
+#			"x-scheme-handler/mailto" = "thunderbird.desktop";
+#			"x-scheme-handler/msteams" = "teams.desktop";
+#			"x-scheme-handler/postman" = "Postman.desktop";
+#
+#			"x-scheme-handler/about" = "vivaldi-stable.desktop";
+#			"x-scheme-handler/unknown" = "vivaldi-stable.desktop";
+#
+#
+#		}; # Check ~/.config/mimeapps.list for collisions
+#	};
 	home.file.".emacs.d/init.el".text = ''
 		(load "default.el")
 	'';
